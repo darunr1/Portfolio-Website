@@ -8,12 +8,8 @@ const nextConfig: NextConfig = {
   async rewrites() {
     return [];
   },
-  experimental: {
-    turbo: {
-      root: ".",
-    },
-  },
 };
+
 
 
 export default withNextIntl(nextConfig);
