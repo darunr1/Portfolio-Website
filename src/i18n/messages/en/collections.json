@@ -1,0 +1,169 @@
+{
+  "news": {
+    "items": [
+      {
+        "date": "2026.01",
+        "title": "Started Adaptive PDE Solver for Option Pricing project",
+        "content": "Building a numerical option pricing engine solving the Black-Scholes PDE using finite difference methods."
+      },
+      {
+        "date": "2025.12",
+        "title": "Software Engineer Intern at Adwealth",
+        "content": "Architected and deployed a full-scale nonprofit web application from scratch."
+      }
+    ]
+  },
+  "projects": {
+    "items": [
+      {
+        "title": "Adaptive PDE Solver for Option Pricing",
+        "href": "https://github.com/darunr1/Adaptive-PDE-Solver-For-Option-Pricing",
+        "dates": "Jan. 2026 - Present",
+        "active": true,
+        "description": "Built a numerical option pricing engine solving the Black-Scholes PDE using finite difference methods, benchmarking results against the analytical Black-Scholes solution. Implemented both a fixed-grid solver and an adaptive time-stepping solver that dynamically refines the temporal grid near expiration to improve accuracy and computational efficiency.",
+        "technologies": [
+          "Python",
+          "NumPy",
+          "SciPy",
+          "Matplotlib",
+          "Pandas"
+        ],
+        "links": [
+          {
+            "type": "GitHub",
+            "href": "https://github.com/darunr1/Adaptive-PDE-Solver-For-Option-Pricing",
+            "icon": "github"
+          }
+        ]
+      },
+      {
+        "title": "Algorithmic Trading Backtester",
+        "href": "https://github.com/darunr1/Algorithmic-Trading-Backtester",
+        "dates": "Jan. 2026 - Present",
+        "active": true,
+        "description": "Built a modular Python algorithmic trading backtester with separate components for data, strategies, execution, risk, portfolio tracking, and analytics. Added realistic trading frictions and controls, including slippage models, fees, latency simulation, stop-loss/take-profit, drawdown scaling, and Kelly-style sizing.",
+        "technologies": [
+          "Python",
+          "Pandas",
+          "NumPy",
+          "Matplotlib",
+          "Pytest"
+        ],
+        "links": [
+          {
+            "type": "GitHub",
+            "href": "https://github.com/darunr1/Algorithmic-Trading-Backtester",
+            "icon": "github"
+          }
+        ]
+      }
+    ]
+  },
+  "publications": {
+    "items": []
+  },
+  "education": {
+    "items": [
+      {
+        "school": "University of Texas at Arlington",
+        "href": "https://www.uta.edu/",
+        "degree": "Bachelor of Science in Computer Engineering",
+        "logoUrl": "/icon/uta.png",
+        "start": "2025",
+        "end": "2029"
+      }
+    ]
+  },
+  "work": {
+    "items": [
+      {
+        "company": "Adwealth",
+        "href": "",
+        "location": "Remote",
+        "title": "Software Engineer Intern",
+        "logoUrl": "/icon/adwealth.png",
+        "start": "Dec. 2025",
+        "end": "Feb. 2026",
+        "description": "Architected and deployed a full-scale nonprofit web application from scratch using modern CMS frameworks. Engineered responsive UI/UX components with custom CSS/JavaScript, optimizing cross-browser compatibility and mobile responsiveness."
+      },
+      {
+        "company": "University of Texas at Arlington",
+        "href": "https://www.uta.edu/",
+        "location": "Arlington, TX",
+        "title": "Undergraduate Research Assistant",
+        "logoUrl": "/icon/uta.png",
+        "start": "Aug. 2025",
+        "end": "Present",
+        "description": "Set up a hybrid research workflow integrating Google Drive, GitHub, and Google Colab to enable efficient large-scale code analysis. Conducting metric extraction on Java projects, analyzing commits, LOC, and file structure."
+      },
+      {
+        "company": "Ascend Web Agency",
+        "href": "",
+        "location": "Remote",
+        "title": "Full-Stack Developer",
+        "logoUrl": "/icon/ascend.png",
+        "start": "Aug. 2023",
+        "end": "Present",
+        "description": "Developed and deployed responsive, SEO-optimized websites leveraging modern frameworks and modular architecture. Led end-to-end development of client websites using modern web technologies."
+      }
+    ]
+  },
+  "awards": {
+    "items": []
+  },
+  "invitedTalks": {
+    "items": []
+  },
+  "teaching": {
+    "items": []
+  },
+  "skills": [
+    "Python",
+    "NumPy",
+    "SciPy",
+    "Matplotlib",
+    "Pandas",
+    "Pytest",
+    "Java",
+    "JavaScript",
+    "TypeScript",
+    "React",
+    "Next.js",
+    "CSS",
+    "Git",
+    "GitHub",
+    "Google Colab",
+    "Stripe",
+    "PayPal",
+    "SEO",
+    "Google Analytics"
+  ],
+  "reviewerConferences": [],
+  "reviewerJournals": [],
+  "social": {
+    "GitHub": {
+      "name": "GitHub",
+      "url": "https://github.com/darunr1",
+      "icon": "github",
+      "navbar": false,
+      "content": true,
+      "footer": true
+    },
+    "LinkedIn": {
+      "name": "LinkedIn",
+      "url": "https://www.linkedin.com/in/darun-prasath-ramalingam-1676b9289/",
+      "icon": "linkedin",
+      "navbar": false,
+      "content": true,
+      "footer": true
+    },
+    "email": {
+      "name": "Email",
+      "url": "mailto:dxr2311@mavs.uta.edu",
+      "icon": "email",
+      "navbar": false,
+      "content": true,
+      "footer": false
+    }
+  }
+}

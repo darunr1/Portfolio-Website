@@ -1,0 +1,17 @@
+{
+    "name": {
+        "full": "Darun Prasath Ramalingam",
+        "given": "Darun",
+        "family": "Ramalingam",
+        "initials": "DPR"
+    },
+    "subtitle": "Computer Engineering Student @ UT Arlington",
+    "headline": "Full-Stack Developer | Software Engineer Intern | Undergraduate Research Assistant",
+    "welcome": "Welcome to my portfolio!",
+    "ogImageUrl": "darun.pro",
+    "bioMarkdown": "Hi, I'm Darun👋. I am a Computer Engineering student at the University of Texas at Arlington, passionate about building high-impact software solutions and exploring the intersections of finance and technology. \n\nMy experience ranges from developing full-scale web applications at Adwealth and Ascend Web Agency to conducting large-scale code analysis as an Undergraduate Research Assistant. I'm currently working on advanced projects like an Adaptive PDE Solver for Option Pricing and an Algorithmic Trading Backtester.\n\n🔬 **Interests:** Full-Stack Development, Algorithmic Trading, Financial Engineering, and Software Performance Optimization.",
+    "location": {
+        "name": "Arlington, TX",
+        "mapUrl": "https://www.google.com/maps/place/Arlington,+TX"
+    }
+}
