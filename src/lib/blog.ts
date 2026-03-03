@@ -7,6 +7,7 @@ export type BlogPost = {
     title: string;
     date: string;
     summary: string;
+    readingTime?: number;
   };
   slug: string;
   source: string;
@@ -22,14 +23,26 @@ function readMDXFile(filePath: string) {
   return matter(rawContent);
 }
 
+function calculateReadingTime(content: string): number {
+  const wordsPerMinute = 200;
+  const noOfWords = content.split(/\s+/).length;
+  const minutes = noOfWords / wordsPerMinute;
+  return Math.max(1, Math.ceil(minutes));
+}
+
 function getMDXData(dir: string): BlogPost[] {
   const mdxFiles = getMDXFiles(dir);
   return mdxFiles.map((file) => {
     const { data, content } = readMDXFile(path.join(dir, file));
     const slug = path.basename(file, path.extname(file));
 
+    const metadata = data as BlogPost["metadata"];
+    if (!metadata.readingTime) {
+      metadata.readingTime = calculateReadingTime(content);
+    }
+
     return {
-      metadata: data as BlogPost["metadata"],
+      metadata,
       slug,
       source: content,
     };
