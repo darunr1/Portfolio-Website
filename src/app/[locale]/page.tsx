@@ -1,6 +1,6 @@
 import { getTranslations } from "next-intl/server";
 import Link from "next/link";
-import type React from "react";
+import React from "react";
 
 import { Icons } from "@/components/icons";
 import AwardsSection from "@/components/portfolio/awards-section";
@@ -100,7 +100,7 @@ export default async function Page(props: {
     active: boolean;
     description: string;
     technologies: string[];
-    authors: string;
+    authors?: string;
     links?: Array<{ type: string; href: string; icon: string }>;
     image?: string;
     video?: string;
@@ -112,7 +112,7 @@ export default async function Page(props: {
     active: boolean;
     description: string;
     technologies: string[];
-    authors: string;
+    authors?: string;
     links?: Array<{ type: string; href: string; icon: string }>;
     image?: string;
     video?: string;
@@ -248,13 +248,15 @@ export default async function Page(props: {
                 </h2>
                 <p className="text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
                   {t("sections.viewFullPublications")}{" "}
-                  <Link
-                    href={socialData.GoogleScholar.url}
-                    className="text-foreground underline hover:no-underline"
-                    target="_blank"
-                  >
-                    {socialData.GoogleScholar.name}
-                  </Link>
+                  {socialData.GoogleScholar && (
+                    <Link
+                      href={socialData.GoogleScholar.url}
+                      className="text-foreground underline hover:no-underline"
+                      target="_blank"
+                    >
+                      {socialData.GoogleScholar.name}
+                    </Link>
+                  )}
                 </p>
               </div>
             </div>
