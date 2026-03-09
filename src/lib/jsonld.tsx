@@ -15,7 +15,6 @@ import type {
 
 import { siteConfig } from "@/data/site";
 import { DEFAULT_LOCALE, getLocaleUrl, type Locale } from "@/i18n/routing";
-import type { BlogPost } from "./blog";
 
 /*
  * Generate BreadcrumbList JSON-LD
@@ -262,56 +261,6 @@ export async function generatePersonJsonLd(
   }
 
   return JSON.stringify(personJsonLd);
-}
-
-/*
- * Generate Blog JSON-LD
- */
-export async function generateBlogJsonLd(
-  posts: BlogPost[],
-  locale: Locale = DEFAULT_LOCALE,
-): Promise<string> {
-  const t = await getTranslations({ locale });
-  const blogJsonLd: WithContext<Blog> = {
-    "@context": "https://schema.org",
-    "@type": "Blog",
-    name: t("blog.title"),
-    description: t("blogTagline"),
-    blogPost: posts.map((post) => ({
-      "@type": "BlogPosting",
-      headline: post.metadata.title,
-      description: post.metadata.summary,
-      datePublished: post.metadata.date,
-      url: getLocaleUrl(locale, `/blog/${post.slug}`),
-    })),
-  };
-  return JSON.stringify(blogJsonLd);
-}
-
-/*
- * Generate BlogPosting JSON-LD
- */
-export async function generateBlogPostingJsonLd(
-  post: BlogPost,
-  locale: Locale = DEFAULT_LOCALE,
-): Promise<string> {
-  const t = await getTranslations({ locale });
-  const baseUrl = getLocaleUrl(locale);
-
-  const blogPostingJsonLd: WithContext<BlogPosting> = {
-    "@context": "https://schema.org",
-    "@type": "BlogPosting",
-    headline: post.metadata.title,
-    description: post.metadata.summary,
-    datePublished: post.metadata.date,
-    url: getLocaleUrl(locale, `/blog/${post.slug}`),
-    author: {
-      "@type": "Person",
-      name: t("name.full"),
-      url: baseUrl,
-    },
-  };
-  return JSON.stringify(blogPostingJsonLd);
 }
 
 

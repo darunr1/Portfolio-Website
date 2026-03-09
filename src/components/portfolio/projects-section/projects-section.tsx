@@ -15,8 +15,8 @@ interface ProjectLink {
 interface ProjectItem {
   readonly title: string;
   readonly href?: string;
-  readonly dates: string;
   readonly active: boolean;
+  readonly category?: string;
   readonly description: string;
   readonly technologies?: readonly string[];
   readonly authors?: string;
@@ -43,6 +43,9 @@ export default function ProjectsSection({
   const [showAll, setShowAll] = useState(false);
   const [mounted, setMounted] = useState(false);
   const [displayCount, setDisplayCount] = useState(desktopDisplayCount);
+  const [activeFilter, setActiveFilter] = useState("All");
+
+  const categories = ["All", ...Array.from(new Set(projects.map(p => p.category).filter((c): c is string => !!c)))];
 
   useEffect(() => {
     setMounted(true);
@@ -62,8 +65,12 @@ export default function ProjectsSection({
     };
   }, [mobileDisplayCount, desktopDisplayCount]);
 
-  const displayed = showAll ? projects : projects.slice(0, displayCount);
-  const hasMore = projects.length > displayCount;
+  const filteredProjects = activeFilter === "All"
+    ? projects
+    : projects.filter(p => p.category === activeFilter);
+
+  const displayed = showAll ? filteredProjects : filteredProjects.slice(0, displayCount);
+  const hasMore = filteredProjects.length > displayCount;
 
   if (!mounted) {
     return (
@@ -74,7 +81,7 @@ export default function ProjectsSection({
             href={project.href}
             title={project.title}
             description={project.description}
-            dates={project.dates}
+            category={project.category}
             tags={project.technologies}
             image={project.image}
             video={project.video}
@@ -87,34 +94,52 @@ export default function ProjectsSection({
   }
 
   return (
-    <div className="mx-auto grid max-w-6xl grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
-      {displayed.map((project) => (
-        <ProjectCard
-          key={project.title}
-          href={project.href}
-          title={project.title}
-          description={project.description}
-          dates={project.dates}
-          tags={project.technologies}
-          image={project.image}
-          video={project.video}
-          links={project.links}
-          authors={project.authors}
-        />
-      ))}
-      {hasMore && !showAll && (
-        <div className="col-span-full flex justify-center pt-1">
+    <div className="space-y-6">
+      <div className="flex flex-wrap justify-center gap-2">
+        {categories.map((category) => (
           <Button
-            variant="outline"
+            key={category}
+            variant={activeFilter === category ? "default" : "outline"}
             size="sm"
-            onClick={() => setShowAll(true)}
-            className="flex items-center gap-2"
+            onClick={() => {
+              setActiveFilter(category);
+              setShowAll(false);
+            }}
+            className="rounded-full px-4 text-xs"
           >
-            <ChevronDown className="h-4 w-4" />
-            {showAllText}
+            {category}
           </Button>
-        </div>
-      )}
+        ))}
+      </div>
+      <div className="mx-auto grid max-w-6xl grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
+        {displayed.map((project) => (
+          <ProjectCard
+            key={project.title}
+            href={project.href}
+            title={project.title}
+            description={project.description}
+            category={project.category}
+            tags={project.technologies}
+            image={project.image}
+            video={project.video}
+            links={project.links}
+            authors={project.authors}
+          />
+        ))}
+        {hasMore && !showAll && (
+          <div className="col-span-full flex justify-center pt-1">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => setShowAll(true)}
+              className="flex items-center gap-2"
+            >
+              <ChevronDown className="h-4 w-4" />
+              {showAllText}
+            </Button>
+          </div>
+        )}
+      </div>
     </div>
   );
 }

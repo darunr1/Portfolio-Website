@@ -19,7 +19,7 @@ interface Props {
   title: string;
   href?: string;
   description: string;
-  dates: string;
+  category?: string;
   tags?: readonly string[];
   link?: string;
   image?: string;
@@ -37,7 +37,7 @@ export function ProjectCard({
   title,
   href,
   description,
-  dates,
+  category,
   tags,
   link,
   image,
@@ -149,7 +149,11 @@ export function ProjectCard({
           <CardTitle className="mt-1 text-base [&_img]:my-0 [&_img]:inline-block [&_img]:h-[1em] [&_img]:w-auto [&_img]:align-baseline">
             <CustomReactMarkdown>{title}</CustomReactMarkdown>
           </CardTitle>
-          <time className="font-sans text-xs">{dates}</time>
+          {category && (
+            <div className="font-sans text-[10px] font-medium text-muted-foreground uppercase tracking-wider">
+              {category}
+            </div>
+          )}
           <div className="hidden font-sans text-xs underline print:visible">
             {link?.replace("https://", "").replace("www.", "").replace("/", "")}
           </div>

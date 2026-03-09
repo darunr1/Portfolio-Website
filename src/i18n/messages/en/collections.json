@@ -16,10 +16,51 @@
   "projects": {
     "items": [
       {
+        "title": "Vertex Instruments Website",
+        "href": "https://github.com/darunr1/Vertex-Instruments-Website",
+        "active": true,
+        "category": "SWE & UI/UX",
+        "description": "Designed and developed a premium platform for Vertex Instruments, a startup specializing in AI-enhanced STEM tools. Built with a modern tech stack including React, HTML, CSS, and JavaScript, the project focuses on high-end UI/UX design, featuring product tiering, pricing modules, and a responsive single-page architecture.",
+        "technologies": [
+          "React",
+          "HTML",
+          "CSS",
+          "JavaScript",
+          "UI",
+          "UX",
+          "Git"
+        ],
+        "links": [
+          {
+            "type": "GitHub",
+            "href": "https://github.com/darunr1/Vertex-Instruments-Website",
+            "icon": "github"
+          }
+        ]
+      },
+      {
+        "title": "Automated Code Smell Prioritization and Ranking",
+        "href": "",
+        "active": true,
+        "category": "ML/AI",
+        "description": "Developed an intelligent system to prioritize 'code smells' by analyzing development history and 'revealed preference,' helping developers focus on critical technical debt rather than false alarms. Used scientifically rigorous ranking to reflect real-world priorities based on issues actually fixed in the past.",
+        "technologies": [
+          "Java",
+          "Python",
+          "JDeodorant",
+          "RefactoringMiner",
+          "SonarQube",
+          "Git",
+          "GitHub",
+          "Google Colab"
+        ],
+        "links": []
+      },
+      {
         "title": "Adaptive PDE Solver for Option Pricing",
         "href": "https://github.com/darunr1/Adaptive-PDE-Solver-For-Option-Pricing",
-        "dates": "Jan. 2026 - Present",
         "active": true,
+        "category": "FinTech/Quant",
         "description": "Built a numerical option pricing engine solving the Black-Scholes PDE using finite difference methods, benchmarking results against the analytical Black-Scholes solution. Implemented both a fixed-grid solver and an adaptive time-stepping solver that dynamically refines the temporal grid near expiration to improve accuracy and computational efficiency.",
         "technologies": [
           "Python",
@@ -39,8 +80,8 @@
       {
         "title": "Algorithmic Trading Backtester",
         "href": "https://github.com/darunr1/Algorithmic-Trading-Backtester",
-        "dates": "Jan. 2026 - Present",
         "active": true,
+        "category": "FinTech/Quant",
         "description": "Built a modular Python algorithmic trading backtester with separate components for data, strategies, execution, risk, portfolio tracking, and analytics. Added realistic trading frictions and controls, including slippage models, fees, latency simulation, stop-loss/take-profit, drawdown scaling, and Kelly-style sizing.",
         "technologies": [
           "Python",
@@ -130,13 +171,17 @@
     "React",
     "Next.js",
     "CSS",
+    "HTML",
     "Git",
     "GitHub",
     "Google Colab",
     "Stripe",
     "PayPal",
     "SEO",
-    "Google Analytics"
+    "Google Analytics",
+    "JDeodorant",
+    "RefactoringMiner",
+    "SonarQube"
   ],
   "reviewerConferences": [],
   "reviewerJournals": [],

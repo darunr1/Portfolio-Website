@@ -96,7 +96,7 @@ export default async function Page(props: {
   const projectsItems = getCollectionItems<{
     title: string;
     href?: string;
-    dates: string;
+    category?: string;
     active: boolean;
     description: string;
     technologies: string[];
@@ -108,7 +108,7 @@ export default async function Page(props: {
   const publicationsItems = getCollectionItems<{
     title: string;
     href?: string;
-    dates: string;
+    category?: string;
     active: boolean;
     description: string;
     technologies: string[];
@@ -320,26 +320,26 @@ export default async function Page(props: {
         reviewerConferences.length > 0) ||
         (Array.isArray(reviewerJournals) && reviewerJournals.length > 0) ||
         (Array.isArray(teachingItems) && teachingItems.length > 0)) && (
-        <section id="academic-services">
-          <div className="flex min-h-0 flex-col gap-y-3">
-            <h2 className="text-xl font-bold">
-              {t("sections.academicServices")}
-            </h2>
-            <Services
-              reviewerConferences={reviewerConferences}
-              reviewerJournals={reviewerJournals}
-              teaching={teachingItems}
-              reviewerConferencesLabel={t(
-                "sections.teaching.reviewerConferencesLabel",
-              )}
-              reviewerJournalsLabel={t(
-                "sections.teaching.reviewerJournalsLabel",
-              )}
-              teachingLabel={t("sections.teaching.teachingLabel")}
-            />
-          </div>
-        </section>
-      )}
+          <section id="academic-services">
+            <div className="flex min-h-0 flex-col gap-y-3">
+              <h2 className="text-xl font-bold">
+                {t("sections.academicServices")}
+              </h2>
+              <Services
+                reviewerConferences={reviewerConferences}
+                reviewerJournals={reviewerJournals}
+                teaching={teachingItems}
+                reviewerConferencesLabel={t(
+                  "sections.teaching.reviewerConferencesLabel",
+                )}
+                reviewerJournalsLabel={t(
+                  "sections.teaching.reviewerJournalsLabel",
+                )}
+                teachingLabel={t("sections.teaching.teachingLabel")}
+              />
+            </div>
+          </section>
+        )}
 
       {/* Invited Talks Section */}
       {invitedTalksItems && invitedTalksItems.length > 0 && (

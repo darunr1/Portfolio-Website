@@ -160,8 +160,5 @@
                 "description": "If you have any questions about these Terms & Disclaimer, please contact me through the contact information provided on the main website."
             }
         }
-    },
-    "blog": {
-        "readingTime": "{minutes} min read"
     }
 }
