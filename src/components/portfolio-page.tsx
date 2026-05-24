@@ -1,14 +1,15 @@
 "use client";
 
+import { useEffect, useMemo, useState } from "react";
 import {
   ArrowUpRight,
   BriefcaseBusiness,
-  ChevronRight,
   Download,
   GraduationCap,
   Mail,
-  MapPin,
-  ShieldCheck,
+  Moon,
+  Sparkles,
+  Sun,
 } from "lucide-react";
 import { motion } from "motion/react";
 
@@ -17,86 +18,130 @@ import {
   experiences,
   heroMetrics,
   profile,
+  projectCategories,
   projects,
   resumeEnabled,
   resumeHref,
-  signatureSignals,
   skillGroups,
   socialLinks,
-  type Experience,
   type Project,
-  type SkillGroup,
 } from "@/data/portfolio";
 
+type Theme = "light" | "dark";
+type ProjectFilter = "All" | (typeof projectCategories)[number];
+
 const fadeUp = {
-  hidden: { opacity: 0, y: 24 },
+  hidden: { opacity: 0, y: 18 },
   visible: { opacity: 1, y: 0 },
 };
 
 const viewport = { once: true, margin: "-80px" };
 
 export function PortfolioPage() {
-  return (
-    <main className="relative min-h-screen overflow-hidden bg-[var(--background)] text-[var(--foreground)]">
-      <div className="pointer-events-none fixed inset-0 -z-10">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_18%_12%,rgba(21,128,61,0.26),transparent_34%),radial-gradient(circle_at_86%_8%,rgba(214,177,103,0.12),transparent_30%),linear-gradient(145deg,#030806_0%,#06130f_42%,#020403_100%)]" />
-        <div className="absolute inset-0 bg-[linear-gradient(rgba(214,177,103,0.035)_1px,transparent_1px),linear-gradient(90deg,rgba(214,177,103,0.035)_1px,transparent_1px)] bg-[size:42px_42px] [mask-image:linear-gradient(to_bottom,black,transparent_88%)]" />
-      </div>
+  const [theme, setTheme] = useState<Theme>(() => {
+    if (typeof window === "undefined") {
+      return "dark";
+    }
 
-      <SiteNav />
+    const stored = window.localStorage.getItem("theme") as Theme | null;
+    return stored ?? "dark";
+  });
+
+  useEffect(() => {
+    document.documentElement.dataset.theme = theme;
+    window.localStorage.setItem("theme", theme);
+  }, [theme]);
+
+  const toggleTheme = () => {
+    setTheme((current) => {
+      const next = current === "dark" ? "light" : "dark";
+      document.documentElement.dataset.theme = next;
+      window.localStorage.setItem("theme", next);
+      return next;
+    });
+  };
+
+  return (
+    <main className="min-h-screen bg-[var(--background)] text-[var(--foreground)]">
+      <BackgroundField />
+      <SiteNav theme={theme} onToggleTheme={toggleTheme} />
       <HeroSection />
       <AboutSection />
-      <EducationSection />
-      <SkillsSection />
-      <ExperienceSection />
       <ProjectsSection />
+      <ExperienceSection />
+      <SkillsEducationSection />
       <ContactSection />
     </main>
   );
 }
 
-function SiteNav() {
+function BackgroundField() {
+  return (
+    <div className="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
+      <div className="absolute inset-0 bg-[var(--page-gradient)]" />
+      <div className="absolute inset-0 opacity-70 [background-image:radial-gradient(circle_at_18%_24%,var(--star)_0_1.5px,transparent_1.8px),radial-gradient(circle_at_72%_18%,var(--star)_0_1.2px,transparent_1.6px),radial-gradient(circle_at_88%_72%,var(--star)_0_1.5px,transparent_1.8px),radial-gradient(circle_at_32%_86%,var(--star)_0_1px,transparent_1.5px)] [background-size:260px_220px,310px_240px,280px_260px,340px_300px]" />
+      <div className="absolute left-0 right-0 top-0 h-px bg-[var(--line)]" />
+    </div>
+  );
+}
+
+function SiteNav({
+  theme,
+  onToggleTheme,
+}: {
+  theme: Theme;
+  onToggleTheme: () => void;
+}) {
   const items = [
     ["About", "#about"],
-    ["Skills", "#skills"],
-    ["Experience", "#experience"],
     ["Projects", "#projects"],
+    ["Experience", "#experience"],
+    ["Stack", "#stack"],
     ["Contact", "#contact"],
   ] as const;
 
   return (
-    <header className="sticky top-0 z-50 border-b border-white/8 bg-[#030806]/78 backdrop-blur-xl">
-      <nav className="mx-auto flex h-16 max-w-7xl items-center justify-between px-5 sm:px-8 lg:px-10">
-        <a
-          href="#top"
-          className="group flex items-center gap-3"
-          aria-label="Darun Prasath Ramalingam home"
-        >
-          <span className="grid size-9 place-items-center rounded-md border border-[var(--gold-border)] bg-[var(--gold-soft)] text-sm font-black text-[var(--gold)] shadow-[0_0_30px_rgba(214,177,103,0.15)]">
+    <header className="sticky top-0 z-50 border-b border-[var(--line)] bg-[var(--nav-bg)] backdrop-blur-xl">
+      <nav className="mx-auto flex h-14 max-w-6xl items-center justify-between px-5 sm:px-8">
+        <a href="#top" className="flex items-center gap-3" aria-label="Portfolio home">
+          <span className="grid size-8 place-items-center rounded-full border border-[var(--accent-border)] bg-[var(--accent-soft)] text-xs font-bold text-[var(--accent)]">
             DP
           </span>
-          <span className="hidden text-sm font-semibold tracking-[0.16em] text-white/78 uppercase sm:block">
-            Darun
+          <span className="hidden text-sm font-semibold text-[var(--foreground)] sm:block">
+            Darun Ramalingam
           </span>
         </a>
+
         <div className="hidden items-center gap-1 md:flex">
           {items.map(([label, href]) => (
             <a
               key={href}
               href={href}
-              className="rounded-md px-3 py-2 text-sm font-medium text-white/62 transition hover:bg-white/6 hover:text-white"
+              className="rounded-full px-3 py-1.5 text-sm font-medium text-[var(--muted)] transition hover:bg-[var(--surface)] hover:text-[var(--foreground)]"
             >
               {label}
             </a>
           ))}
         </div>
-        <a
-          href={`mailto:${profile.email}`}
-          className="inline-flex items-center gap-2 rounded-md border border-[var(--gold-border)] bg-[var(--gold-soft)] px-3 py-2 text-sm font-semibold text-[var(--gold)] transition hover:border-[var(--gold)] hover:bg-[rgba(214,177,103,0.16)]"
-        >
-          <Mail className="size-4" />
-          <span className="hidden sm:inline">Contact</span>
-        </a>
+
+        <div className="flex items-center gap-2">
+          <button
+            type="button"
+            onClick={onToggleTheme}
+            className="grid size-9 place-items-center rounded-full border border-[var(--line)] bg-[var(--surface)] text-[var(--muted)] transition hover:border-[var(--accent-border)] hover:text-[var(--accent)]"
+            aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} theme`}
+            title={`Switch to ${theme === "dark" ? "light" : "dark"} theme`}
+          >
+            {theme === "dark" ? <Sun className="size-4" /> : <Moon className="size-4" />}
+          </button>
+          <a
+            href={`mailto:${profile.email}`}
+            className="inline-flex h-9 items-center gap-2 rounded-full border border-[var(--accent-border)] bg-[var(--accent-soft)] px-3 text-sm font-semibold text-[var(--accent)] transition hover:bg-[var(--surface)]"
+          >
+            <Mail className="size-4" />
+            <span className="hidden sm:inline">Contact</span>
+          </a>
+        </div>
       </nav>
     </header>
   );
@@ -104,66 +149,66 @@ function SiteNav() {
 
 function HeroSection() {
   return (
-    <section id="top" className="relative px-5 pt-16 pb-20 sm:px-8 lg:px-10 lg:pt-24">
-      <div className="mx-auto grid max-w-7xl items-center gap-12 lg:grid-cols-[1.05fr_0.95fr]">
-        <motion.div
-          variants={fadeUp}
-          initial="hidden"
-          animate="visible"
-          transition={{ duration: 0.7, ease: "easeOut" }}
-          className="max-w-3xl"
-        >
-          <div className="mb-6 inline-flex items-center gap-2 rounded-md border border-emerald-300/14 bg-emerald-300/8 px-3 py-2 text-sm font-medium text-emerald-100/86">
-            <MapPin className="size-4 text-[var(--gold)]" />
-            {profile.location}
+    <section id="top" className="px-5 pt-12 pb-10 sm:px-8 lg:pt-16">
+      <motion.div
+        variants={fadeUp}
+        initial="hidden"
+        animate="visible"
+        transition={{ duration: 0.55 }}
+        className="mx-auto max-w-6xl"
+      >
+        <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-[var(--accent-border)] bg-[var(--accent-soft)] px-3 py-1.5 text-xs font-semibold text-[var(--accent)] shadow-[0_0_32px_var(--accent-glow)]">
+          <Sparkles className="size-3.5" />
+          building research tools, fintech systems, and web products
+        </div>
+
+        <div className="grid gap-8 lg:grid-cols-[1fr_22rem] lg:items-end">
+          <div>
+            <h1 className="max-w-4xl text-4xl font-semibold leading-[1.02] tracking-tight text-[var(--foreground)] sm:text-5xl lg:text-6xl">
+              Computer engineering portfolio for software teams that care about
+              clean systems.
+            </h1>
+            <p className="mt-5 max-w-3xl text-base leading-7 text-[var(--muted)] sm:text-lg">
+              I&apos;m {profile.name}, a UTA student in Dallas building across
+              ML research, backend workflows, numerical finance, and polished
+              front-end products.
+            </p>
           </div>
-          <p className="mb-4 text-sm font-semibold tracking-[0.24em] text-[var(--gold)] uppercase">
-            {profile.title}
-          </p>
-          <h1 className="max-w-4xl text-5xl leading-[0.98] font-black tracking-tight text-balance text-white sm:text-6xl lg:text-7xl">
-            {profile.name}
-          </h1>
-          <p className="mt-7 max-w-2xl text-2xl leading-tight font-semibold text-[var(--foreground)] sm:text-3xl">
-            {profile.headline}
-          </p>
-          <p className="mt-5 max-w-2xl text-base leading-8 text-[var(--muted)] sm:text-lg">
-            {profile.summary}
-          </p>
-          <div className="mt-9 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
-            <ResumeButton />
-            {socialLinks.map((link) => {
-              const Icon = link.icon;
-              return (
-                <a
-                  key={link.label}
-                  href={link.href}
-                  target={link.href.startsWith("mailto:") ? undefined : "_blank"}
-                  rel={link.href.startsWith("mailto:") ? undefined : "noreferrer"}
-                  className="inline-flex min-h-12 items-center justify-center gap-2 rounded-md border border-white/10 bg-white/[0.045] px-5 text-sm font-semibold text-white/84 transition hover:-translate-y-0.5 hover:border-emerald-200/24 hover:bg-white/[0.075] hover:text-white"
-                >
-                  <Icon className="size-4" />
-                  {link.label}
-                </a>
-              );
-            })}
-          </div>
-          <div className="mt-10 grid max-w-xl grid-cols-3 gap-3">
+
+          <div className="grid gap-2 rounded-2xl border border-[var(--line)] bg-[var(--surface)] p-4">
             {heroMetrics.map((metric) => (
               <div
                 key={metric.label}
-                className="rounded-md border border-white/8 bg-white/[0.035] px-4 py-4"
+                className="flex items-center justify-between rounded-xl bg-[var(--surface-soft)] px-3 py-2"
               >
-                <div className="text-2xl font-black text-white">{metric.value}</div>
-                <div className="mt-1 text-xs leading-5 text-white/52">
-                  {metric.label}
-                </div>
+                <span className="text-sm text-[var(--muted)]">{metric.label}</span>
+                <span className="font-mono text-lg font-semibold text-[var(--foreground)]">
+                  {metric.value}
+                </span>
               </div>
             ))}
           </div>
-        </motion.div>
+        </div>
 
-        <HeroVisual />
-      </div>
+        <div className="mt-7 flex flex-wrap gap-3">
+          <ResumeButton />
+          {socialLinks.map((link) => {
+            const Icon = link.icon;
+            return (
+              <a
+                key={link.label}
+                href={link.href}
+                target={link.href.startsWith("mailto:") ? undefined : "_blank"}
+                rel={link.href.startsWith("mailto:") ? undefined : "noreferrer"}
+                className="inline-flex h-10 items-center gap-2 rounded-full border border-[var(--line)] bg-[var(--surface)] px-4 text-sm font-semibold text-[var(--foreground)] transition hover:-translate-y-0.5 hover:border-[var(--accent-border)]"
+              >
+                <Icon className="size-4 text-[var(--accent)]" />
+                {link.label}
+              </a>
+            );
+          })}
+        </div>
+      </motion.div>
     </section>
   );
 }
@@ -174,7 +219,7 @@ function ResumeButton() {
       <a
         href={resumeHref}
         download
-        className="inline-flex min-h-12 items-center justify-center gap-2 rounded-md bg-[var(--gold)] px-5 text-sm font-black text-[#07110d] shadow-[0_20px_60px_rgba(214,177,103,0.2)] transition hover:-translate-y-0.5 hover:bg-[#e2c27c]"
+        className="inline-flex h-10 items-center gap-2 rounded-full bg-[var(--accent)] px-4 text-sm font-semibold text-[var(--accent-contrast)] transition hover:-translate-y-0.5"
       >
         <Download className="size-4" />
         Resume
@@ -187,261 +232,270 @@ function ResumeButton() {
       type="button"
       disabled
       title="Resume PDF is not connected yet."
-      className="inline-flex min-h-12 cursor-not-allowed items-center justify-center gap-2 rounded-md border border-[var(--gold-border)] bg-[var(--gold-soft)] px-5 text-sm font-black text-[rgba(214,177,103,0.58)]"
+      className="inline-flex h-10 cursor-not-allowed items-center gap-2 rounded-full border border-[var(--accent-border)] bg-[var(--accent-soft)] px-4 text-sm font-semibold text-[var(--accent)] opacity-75"
     >
       <Download className="size-4" />
-      Resume coming soon
+      Resume pending
     </button>
   );
 }
 
-function HeroVisual() {
-  const rows = [
-    ["repo_scan.py", "extract commits, LOC, churn"],
-    ["smell_ranker.java", "AST proximity + refactoring signals"],
-    ["api/jobs.ts", "async generation workflow"],
-    ["backtest.py", "fees, slippage, walk-forward validation"],
-  ];
-
+function SectionHeader({
+  eyebrow,
+  title,
+  subtitle,
+}: {
+  eyebrow?: string;
+  title: string;
+  subtitle?: string;
+}) {
   return (
-    <motion.div
-      variants={fadeUp}
-      initial="hidden"
-      animate="visible"
-      transition={{ duration: 0.7, delay: 0.15, ease: "easeOut" }}
-      className="relative"
-    >
-      <div className="absolute -inset-4 rounded-lg bg-emerald-500/10 blur-3xl" />
-      <div className="relative overflow-hidden rounded-lg border border-white/10 bg-[#07120e]/88 shadow-[0_30px_120px_rgba(0,0,0,0.45)]">
-        <div className="flex items-center justify-between border-b border-white/8 bg-white/[0.035] px-5 py-4">
-          <div className="flex items-center gap-2">
-            <span className="size-2.5 rounded-full bg-[#d45656]" />
-            <span className="size-2.5 rounded-full bg-[#d6b167]" />
-            <span className="size-2.5 rounded-full bg-[#3fbf7f]" />
-          </div>
-          <div className="text-xs font-semibold tracking-[0.22em] text-white/38 uppercase">
-            Systems Console
-          </div>
-        </div>
-        <div className="p-5 sm:p-7">
-          <div className="grid gap-3">
-            {rows.map(([file, detail], index) => (
-              <motion.div
-                key={file}
-                initial={{ opacity: 0, x: -12 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.35 + index * 0.1, duration: 0.45 }}
-                className="group rounded-md border border-white/8 bg-black/24 p-4 transition hover:border-[var(--gold-border)] hover:bg-white/[0.045]"
-              >
-                <div className="flex items-start justify-between gap-3">
-                  <div>
-                    <div className="font-mono text-sm font-semibold text-emerald-100">
-                      {file}
-                    </div>
-                    <div className="mt-1 text-sm leading-6 text-white/54">
-                      {detail}
-                    </div>
-                  </div>
-                  <ChevronRight className="mt-1 size-4 shrink-0 text-[var(--gold)] transition group-hover:translate-x-0.5" />
-                </div>
-              </motion.div>
-            ))}
-          </div>
-          <div className="mt-5 grid grid-cols-2 gap-3">
-            {signatureSignals.slice(0, 4).map((signal) => {
-              const Icon = signal.icon;
-              return (
-                <div
-                  key={signal.label}
-                  className="flex min-h-16 items-center gap-3 rounded-md border border-emerald-200/10 bg-emerald-200/[0.045] px-4 py-3"
-                >
-                  <Icon className="size-4 shrink-0 text-[var(--gold)]" />
-                  <span className="text-sm font-medium leading-5 text-white/70">
-                    {signal.label}
-                  </span>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      </div>
-    </motion.div>
+    <div className="mb-6">
+      <h2 className="text-3xl font-semibold tracking-tight text-[var(--foreground)]">{title}</h2>
+      {eyebrow && (
+        <p className="mt-1 text-xs font-semibold uppercase tracking-[0.26em] text-[var(--muted)]">
+          {eyebrow}
+        </p>
+      )}
+      {subtitle && <p className="mt-2 max-w-2xl text-sm text-[var(--muted)]">{subtitle}</p>}
+    </div>
   );
 }
 
-function Section({
-  id,
-  eyebrow,
-  title,
-  children,
-}: {
-  id: string;
-  eyebrow: string;
-  title: string;
-  children: React.ReactNode;
-}) {
+function AboutSection() {
+  const stackSnapshot = [
+    ["Daily drivers", "Python · TypeScript · React · Node.js · Git"],
+    ["ML / Data", "PyTorch · NumPy · pandas · Jupyter"],
+    ["Infra & tools", "GitHub · Colab · Linux · Supabase · Figma"],
+    ["Interests", "AI systems, aerospace software, quant tooling"],
+  ];
+
+  const optimizingFor = [
+    "Teams that bias toward shipping and honest feedback.",
+    "Problems where engineering quality changes the outcome.",
+    "Learning curves that are steep but worth climbing.",
+  ];
+
   return (
-    <section id={id} className="px-5 py-16 sm:px-8 lg:px-10 lg:py-24">
+    <section id="about" className="border-y border-[var(--line)] px-5 py-14 sm:px-8">
       <motion.div
         variants={fadeUp}
         initial="hidden"
         whileInView="visible"
         viewport={viewport}
-        transition={{ duration: 0.55, ease: "easeOut" }}
-        className="mx-auto max-w-7xl"
+        transition={{ duration: 0.5 }}
+        className="mx-auto grid max-w-6xl gap-10 lg:grid-cols-[1.2fr_0.8fr]"
       >
-        <div className="mb-9 flex flex-col justify-between gap-4 md:flex-row md:items-end">
-          <div>
-            <p className="text-sm font-bold tracking-[0.22em] text-[var(--gold)] uppercase">
-              {eyebrow}
+        <div>
+          <SectionHeader title="About" />
+          <div className="space-y-5 text-base leading-8 text-[var(--foreground)]">
+            <p>
+              I enjoy designing systems that stay understandable even when the
+              inputs are messy: noisy repository data, complex model workflows,
+              scattered product requirements, or numerical assumptions that need
+              to be tested carefully.
             </p>
-            <h2 className="mt-3 max-w-3xl text-3xl font-black tracking-tight text-white sm:text-5xl">
-              {title}
-            </h2>
+            <p>
+              Most of my work sits at the intersection of{" "}
+              <span className="text-[var(--accent)]">AI/ML</span>,{" "}
+              <span className="text-[var(--accent)]">quantitative finance</span>,
+              and <span className="text-[var(--accent)]">software engineering</span>.
+              I like projects where the code has to explain itself and the user
+              experience has to earn its space.
+            </p>
+            <p>
+              I&apos;m especially drawn to aerospace and defense software because
+              the work rewards disciplined thinking: clear interfaces, reliable
+              systems, and strong communication.
+            </p>
           </div>
         </div>
-        {children}
+
+        <div className="grid content-start gap-4">
+          <div className="justify-self-end rounded-full border border-[var(--line)] bg-[var(--surface)] px-4 py-1.5 text-xs font-semibold text-[var(--foreground)] shadow-[0_0_32px_var(--accent-glow)]">
+            building in public
+          </div>
+          <div className="rounded-2xl border border-[var(--line)] bg-[var(--surface)] p-4">
+            <h3 className="text-sm font-semibold text-[var(--foreground)]">Quick stack snapshot</h3>
+            <div className="mt-4 grid gap-4 sm:grid-cols-2">
+              {stackSnapshot.map(([label, value]) => (
+                <div key={label}>
+                  <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[var(--muted)]">
+                    {label}
+                  </p>
+                  <p className="mt-1 text-sm font-semibold leading-5 text-[var(--foreground)]">
+                    {value}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div className="rounded-2xl border border-[var(--line)] bg-[var(--surface)] p-4">
+            <h3 className="text-sm font-semibold text-[var(--foreground)]">What I&apos;m optimizing for</h3>
+            <ul className="mt-3 grid gap-2">
+              {optimizingFor.map((item) => (
+                <li key={item} className="flex gap-2 text-sm leading-6 text-[var(--muted)]">
+                  <span className="mt-2 size-1.5 rounded-full bg-[var(--accent)]" />
+                  <span>{item}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
       </motion.div>
     </section>
   );
 }
 
-function AboutSection() {
-  return (
-    <Section id="about" eyebrow="About" title="Internship-ready engineering range.">
-      <div className="grid gap-5 lg:grid-cols-[1.15fr_0.85fr]">
-        <div className="rounded-lg border border-white/10 bg-white/[0.045] p-6 sm:p-8">
-          <p className="text-lg leading-8 text-white/76">
-            I am a Computer Engineering student at the University of Texas at
-            Arlington, expected to graduate in May 2028. I have experience in
-            ML/AI research, frontend development, backend APIs, static analysis,
-            data pipelines, and full-stack web platforms.
-          </p>
-          <p className="mt-5 text-base leading-8 text-[var(--muted)]">
-            I build software with the same mindset across research tools,
-            product interfaces, and backend workflows: make the system clear,
-            measurable, useful, and reliable enough for other people to trust.
-          </p>
-        </div>
-        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-1">
-          {signatureSignals.slice(0, 3).map((signal) => {
-            const Icon = signal.icon;
-            return (
-              <div
-                key={signal.label}
-                className="rounded-md border border-emerald-200/10 bg-emerald-200/[0.04] p-5"
-              >
-                <Icon className="mb-4 size-5 text-[var(--gold)]" />
-                <div className="text-lg font-bold text-white">{signal.label}</div>
-                <div className="mt-2 text-sm leading-6 text-white/55">
-                  Practical experience across research, product, and data-heavy
-                  engineering contexts.
-                </div>
-              </div>
-            );
-          })}
-        </div>
-      </div>
-    </Section>
+function ProjectsSection() {
+  const [activeCategory, setActiveCategory] = useState<ProjectFilter>("All");
+  const filters: ProjectFilter[] = ["All", ...projectCategories];
+  const visibleProjects = useMemo(
+    () =>
+      activeCategory === "All"
+        ? projects
+        : projects.filter((project) => project.category === activeCategory),
+    [activeCategory],
   );
-}
 
-function EducationSection() {
   return (
-    <Section id="education" eyebrow="Education" title="Computer Engineering foundation.">
-      <div className="rounded-lg border border-white/10 bg-[#07120e]/78 p-6 sm:p-8">
-        <div className="flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between">
-          <div>
-            <div className="mb-4 inline-flex size-11 items-center justify-center rounded-md border border-[var(--gold-border)] bg-[var(--gold-soft)]">
-              <GraduationCap className="size-5 text-[var(--gold)]" />
-            </div>
-            <h3 className="text-2xl font-black text-white">{education.school}</h3>
-            <p className="mt-2 text-lg text-white/70">{education.degree}</p>
-            <p className="mt-2 font-semibold text-[var(--gold)]">
-              {education.graduation}
-            </p>
-          </div>
-          <div className="max-w-xl">
-            <p className="mb-3 text-sm font-bold tracking-[0.2em] text-white/40 uppercase">
-              Relevant Coursework
-            </p>
-            <div className="flex flex-wrap gap-2">
-              {education.coursework.map((course) => (
-                <span
-                  key={course}
-                  className="rounded-md border border-white/10 bg-white/[0.045] px-3 py-2 text-sm font-semibold text-white/72"
+    <section id="projects" className="px-5 py-14 sm:px-8">
+      <motion.div
+        variants={fadeUp}
+        initial="hidden"
+        whileInView="visible"
+        viewport={viewport}
+        transition={{ duration: 0.5 }}
+        className="mx-auto max-w-6xl"
+      >
+        <div className="mb-7 flex flex-col gap-5 lg:flex-row lg:items-start lg:justify-between">
+          <SectionHeader
+            title="Projects"
+            subtitle="A mix of research, products, and experiments I have enjoyed building."
+          />
+          <div className="flex flex-wrap gap-2 lg:justify-end">
+            {filters.map((filter) => {
+              const active = activeCategory === filter;
+              return (
+                <button
+                  key={filter}
+                  type="button"
+                  onClick={() => setActiveCategory(filter)}
+                  className={`rounded-full border px-3.5 py-1.5 text-sm font-semibold transition ${
+                    active
+                      ? "border-[var(--accent)] bg-[var(--accent-soft)] text-[var(--accent)] shadow-[0_0_24px_var(--accent-glow)]"
+                      : "border-[var(--line)] bg-[var(--surface)] text-[var(--muted)] hover:border-[var(--accent-border)] hover:text-[var(--foreground)]"
+                  }`}
                 >
-                  {course}
-                </span>
-              ))}
-            </div>
+                  {filter}
+                </button>
+              );
+            })}
           </div>
         </div>
-      </div>
-    </Section>
+
+        <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+          {visibleProjects.map((project, index) => (
+            <ProjectCard key={project.title} project={project} index={index} />
+          ))}
+        </div>
+      </motion.div>
+    </section>
   );
 }
 
-function SkillsSection() {
-  return (
-    <Section id="skills" eyebrow="Technical Skills" title="A practical stack for research and product work.">
-      <div className="grid gap-4 lg:grid-cols-3">
-        {skillGroups.map((group) => (
-          <SkillCard key={group.title} group={group} />
-        ))}
-      </div>
-    </Section>
-  );
-}
+function ProjectCard({ project, index }: { project: Project; index: number }) {
+  const Icon = project.icon;
 
-function SkillCard({ group }: { group: SkillGroup }) {
-  const Icon = group.icon;
   return (
-    <div className="rounded-lg border border-white/10 bg-white/[0.045] p-6 transition hover:-translate-y-1 hover:border-emerald-200/18 hover:bg-white/[0.06]">
-      <div className="mb-5 flex items-center gap-3">
-        <span className="inline-flex size-10 items-center justify-center rounded-md border border-[var(--gold-border)] bg-[var(--gold-soft)]">
-          <Icon className="size-5 text-[var(--gold)]" />
+    <motion.article
+      variants={fadeUp}
+      initial="hidden"
+      whileInView="visible"
+      viewport={viewport}
+      transition={{ duration: 0.42, delay: index * 0.04 }}
+      className="group flex min-h-[326px] flex-col rounded-2xl border border-[var(--line)] bg-[var(--surface)] p-5 transition hover:-translate-y-1 hover:border-[var(--accent-border)] hover:shadow-[0_16px_50px_var(--card-shadow)]"
+    >
+      <div className="mb-4 flex items-start justify-between gap-4">
+        <div>
+          <h3 className="text-base font-semibold leading-tight text-[var(--foreground)]">
+            {project.title}
+          </h3>
+          <p className="mt-2 text-xs font-semibold uppercase tracking-[0.28em] text-[var(--muted)]">
+            {project.category}
+          </p>
+        </div>
+        <span className="grid size-9 shrink-0 place-items-center rounded-full bg-[var(--surface-soft)] text-[var(--accent)]">
+          <Icon className="size-4" />
         </span>
-        <h3 className="text-xl font-black text-white">{group.title}</h3>
       </div>
-      <div className="flex flex-wrap gap-2">
-        {group.skills.map((skill) => (
-          <span
-            key={skill}
-            className="rounded-md border border-emerald-200/10 bg-emerald-200/[0.045] px-3 py-2 text-sm font-semibold text-emerald-50/74"
+
+      <p className="text-sm font-semibold leading-5 text-[var(--foreground)]">
+        {project.accent}
+      </p>
+      <p className="mt-3 text-sm leading-6 text-[var(--muted)]">{project.description}</p>
+
+      <div className="mt-auto pt-5">
+        <div className="flex flex-wrap gap-2">
+          {project.tech.map((tech) => (
+            <span
+              key={tech}
+              className="rounded-full bg-[var(--chip)] px-2.5 py-1 text-xs font-semibold text-[var(--chip-text)]"
+            >
+              {tech}
+            </span>
+          ))}
+        </div>
+        {project.href && (
+          <a
+            href={project.href}
+            target="_blank"
+            rel="noreferrer"
+            className="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-[var(--accent)] transition group-hover:gap-2.5"
           >
-            {skill}
-          </span>
-        ))}
+            GitHub
+            <ArrowUpRight className="size-3.5" />
+          </a>
+        )}
       </div>
-    </div>
+    </motion.article>
   );
 }
 
 function ExperienceSection() {
   return (
-    <Section id="experience" eyebrow="Experience" title="Premium execution across research, web, and backend systems.">
-      <div className="relative">
-        <div className="absolute left-5 top-0 hidden h-full w-px bg-gradient-to-b from-[var(--gold)] via-emerald-400/30 to-transparent md:block" />
-        <div className="grid gap-5">
+    <section id="experience" className="border-y border-[var(--line)] px-5 py-14 sm:px-8">
+      <motion.div
+        variants={fadeUp}
+        initial="hidden"
+        whileInView="visible"
+        viewport={viewport}
+        transition={{ duration: 0.5 }}
+        className="mx-auto max-w-6xl"
+      >
+        <SectionHeader
+          title="Experience"
+          subtitle="Roles where I have worked across research pipelines, interfaces, APIs, and shipped web systems."
+        />
+        <div className="grid gap-3">
           {experiences.map((experience, index) => (
-            <ExperienceCard
+            <ExperienceRow
               key={`${experience.company}-${experience.role}`}
               experience={experience}
               index={index}
             />
           ))}
         </div>
-      </div>
-    </Section>
+      </motion.div>
+    </section>
   );
 }
 
-function ExperienceCard({
+function ExperienceRow({
   experience,
   index,
 }: {
-  experience: Experience;
+  experience: (typeof experiences)[number];
   index: number;
 }) {
   const Icon = experience.icon;
@@ -452,33 +506,33 @@ function ExperienceCard({
       initial="hidden"
       whileInView="visible"
       viewport={viewport}
-      transition={{ duration: 0.5, delay: index * 0.05 }}
-      className="relative rounded-lg border border-white/10 bg-[#07120e]/78 p-6 transition hover:-translate-y-1 hover:border-[var(--gold-border)] hover:bg-[#0a1712] md:ml-14"
+      transition={{ duration: 0.42, delay: index * 0.04 }}
+      className="grid gap-5 rounded-2xl border border-[var(--line)] bg-[var(--surface)] p-5 transition hover:border-[var(--accent-border)] md:grid-cols-[16rem_1fr]"
     >
-      <div className="absolute -left-[3.95rem] top-6 hidden size-10 place-items-center rounded-md border border-[var(--gold-border)] bg-[#07120e] md:grid">
-        <Icon className="size-5 text-[var(--gold)]" />
-      </div>
-      <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
-        <div>
-          <div className="mb-4 inline-flex size-10 items-center justify-center rounded-md border border-[var(--gold-border)] bg-[var(--gold-soft)] md:hidden">
-            <Icon className="size-5 text-[var(--gold)]" />
-          </div>
-          <h3 className="text-2xl font-black text-white">{experience.role}</h3>
-          <p className="mt-1 text-lg font-semibold text-emerald-100/76">
-            {experience.company}
+      <div>
+        <span className="mb-4 grid size-10 place-items-center rounded-xl border border-[var(--accent-border)] bg-[var(--accent-soft)] text-[var(--accent)]">
+          <Icon className="size-5" />
+        </span>
+        <h3 className="text-lg font-semibold leading-tight text-[var(--foreground)]">
+          {experience.role}
+        </h3>
+        <p className="mt-1 text-sm font-semibold text-[var(--accent)]">
+          {experience.company}
+        </p>
+        <div className="mt-4 rounded-xl bg-[var(--surface-soft)] px-3 py-2">
+          <p className="text-xs font-semibold uppercase tracking-[0.14em] text-[var(--muted)]">
+            {experience.period}
           </p>
-        </div>
-        <div className="shrink-0 rounded-md border border-white/10 bg-white/[0.045] px-4 py-3 text-left lg:text-right">
-          <div className="font-bold text-[var(--gold)]">{experience.period}</div>
           {experience.location && (
-            <div className="mt-1 text-sm text-white/44">{experience.location}</div>
+            <p className="mt-1 text-xs text-[var(--muted)]">{experience.location}</p>
           )}
         </div>
       </div>
-      <ul className="mt-6 grid gap-3">
+
+      <ul className="grid content-start gap-3">
         {experience.highlights.map((highlight) => (
-          <li key={highlight} className="flex gap-3 text-sm leading-7 text-white/68">
-            <ShieldCheck className="mt-1 size-4 shrink-0 text-[var(--gold)]" />
+          <li key={highlight} className="flex gap-3 text-sm leading-6 text-[var(--muted)]">
+            <span className="mt-2 size-1.5 shrink-0 rounded-full bg-[var(--accent)]" />
             <span>{highlight}</span>
           </li>
         ))}
@@ -487,121 +541,104 @@ function ExperienceCard({
   );
 }
 
-function ProjectsSection() {
+function SkillsEducationSection() {
   return (
-    <Section id="projects" eyebrow="Projects" title="Systems that show depth, judgment, and shipping ability.">
-      <div className="grid gap-4 lg:grid-cols-3">
-        {projects.map((project, index) => (
-          <ProjectCard key={project.title} project={project} index={index} />
-        ))}
-      </div>
-    </Section>
-  );
-}
-
-function ProjectCard({ project, index }: { project: Project; index: number }) {
-  const Icon = project.icon;
-  return (
-    <motion.article
-      variants={fadeUp}
-      initial="hidden"
-      whileInView="visible"
-      viewport={viewport}
-      transition={{ duration: 0.5, delay: index * 0.06 }}
-      className="group flex min-h-[410px] flex-col rounded-lg border border-white/10 bg-white/[0.045] p-6 transition hover:-translate-y-1 hover:border-[var(--gold-border)] hover:bg-white/[0.065]"
-    >
-      <div className="mb-8 flex items-center justify-between">
-        <span className="rounded-md border border-[var(--gold-border)] bg-[var(--gold-soft)] px-3 py-2 text-xs font-black tracking-[0.18em] text-[var(--gold)] uppercase">
-          {project.accent}
-        </span>
-        <span className="grid size-11 place-items-center rounded-md border border-emerald-200/12 bg-emerald-200/[0.055]">
-          <Icon className="size-5 text-emerald-100" />
-        </span>
-      </div>
-      <h3 className="text-2xl font-black leading-tight text-white">
-        {project.title}
-      </h3>
-      <p className="mt-4 text-sm leading-7 text-white/62">{project.description}</p>
-      <div className="mt-auto pt-7">
-        <div className="flex flex-wrap gap-2">
-          {project.tech.map((tech) => (
-            <span
-              key={tech}
-              className="rounded-md border border-white/10 bg-black/18 px-2.5 py-1.5 text-xs font-semibold text-white/68"
-            >
-              {tech}
-            </span>
-          ))}
-        </div>
-      </div>
-    </motion.article>
-  );
-}
-
-function ContactSection() {
-  return (
-    <section id="contact" className="px-5 pt-16 pb-24 sm:px-8 lg:px-10 lg:pt-24">
+    <section id="stack" className="px-5 py-14 sm:px-8">
       <motion.div
         variants={fadeUp}
         initial="hidden"
         whileInView="visible"
         viewport={viewport}
-        transition={{ duration: 0.55, ease: "easeOut" }}
-        className="mx-auto max-w-7xl overflow-hidden rounded-lg border border-white/10 bg-[#07120e]/82"
+        transition={{ duration: 0.5 }}
+        className="mx-auto grid max-w-6xl gap-4 lg:grid-cols-[1fr_1fr]"
       >
-        <div className="grid gap-8 p-6 sm:p-8 lg:grid-cols-[1fr_0.75fr] lg:p-10">
-          <div>
-            <p className="text-sm font-bold tracking-[0.22em] text-[var(--gold)] uppercase">
-              Contact
-            </p>
-            <h2 className="mt-3 max-w-3xl text-3xl font-black tracking-tight text-white sm:text-5xl">
-              Let&apos;s build something worth shipping.
-            </h2>
-            <p className="mt-5 max-w-2xl text-base leading-8 text-[var(--muted)] sm:text-lg">
-              I&apos;m looking for internship opportunities where I can contribute
-              to strong engineering teams, learn quickly, and ship reliable
-              software across product, infrastructure, data, or ML-adjacent work.
-            </p>
-          </div>
-          <div className="grid content-center gap-3">
-            <a
-              href={`mailto:${profile.email}`}
-              className="group flex items-center justify-between gap-4 rounded-md border border-[var(--gold-border)] bg-[var(--gold-soft)] p-4 transition hover:border-[var(--gold)] hover:bg-[rgba(214,177,103,0.16)]"
-            >
-              <span className="flex items-center gap-3 font-bold text-[var(--gold)]">
-                <Mail className="size-5" />
-                {profile.email}
-              </span>
-              <ArrowUpRight className="size-5 text-[var(--gold)] transition group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-            </a>
-            {socialLinks
-              .filter((link) => link.label !== "Email")
-              .map((link) => {
-                const Icon = link.icon;
-                return (
-                  <a
-                    key={link.label}
-                    href={link.href}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="group flex items-center justify-between gap-4 rounded-md border border-white/10 bg-white/[0.045] p-4 transition hover:border-emerald-200/20 hover:bg-white/[0.07]"
-                  >
-                    <span className="flex items-center gap-3 font-bold text-white/78">
-                      <Icon className="size-5 text-[var(--gold)]" />
-                      {link.label}
-                    </span>
-                    <ArrowUpRight className="size-5 text-white/42 transition group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-white" />
-                  </a>
-                );
-              })}
+        <div>
+          <SectionHeader title="Stack" subtitle="Compact overview of the tools and concepts I use most." />
+          <div className="grid gap-3">
+            {skillGroups.map((group) => {
+              const Icon = group.icon;
+              return (
+                <div key={group.title} className="rounded-2xl border border-[var(--line)] bg-[var(--surface)] p-4">
+                  <div className="mb-3 flex items-center gap-2">
+                    <Icon className="size-4 text-[var(--accent)]" />
+                    <h3 className="text-sm font-semibold text-[var(--foreground)]">{group.title}</h3>
+                  </div>
+                  <div className="flex flex-wrap gap-2">
+                    {group.skills.map((skill) => (
+                      <span key={skill} className="rounded-full bg-[var(--chip)] px-2.5 py-1 text-xs font-semibold text-[var(--chip-text)]">
+                        {skill}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              );
+            })}
           </div>
         </div>
-        <div className="flex flex-col gap-3 border-t border-white/8 px-6 py-5 text-sm text-white/42 sm:flex-row sm:items-center sm:justify-between sm:px-8 lg:px-10">
-          <span>Darun Prasath Ramalingam</span>
-          <span className="inline-flex items-center gap-2">
-            <BriefcaseBusiness className="size-4 text-[var(--gold)]" />
-            Open to software engineering internships
-          </span>
+
+        <div>
+          <SectionHeader title="Education" subtitle="Computer Engineering coursework and technical foundation." />
+          <div className="rounded-2xl border border-[var(--line)] bg-[var(--surface)] p-5">
+            <div className="flex items-start gap-3">
+              <GraduationCap className="mt-1 size-5 text-[var(--accent)]" />
+              <div>
+                <h3 className="font-semibold text-[var(--foreground)]">{education.school}</h3>
+                <p className="mt-1 text-sm text-[var(--muted)]">{education.degree}</p>
+                <p className="mt-1 text-sm font-semibold text-[var(--accent)]">{education.graduation}</p>
+              </div>
+            </div>
+            <div className="mt-5 flex flex-wrap gap-2">
+              {education.coursework.map((course) => (
+                <span key={course} className="rounded-full bg-[var(--chip)] px-2.5 py-1 text-xs font-semibold text-[var(--chip-text)]">
+                  {course}
+                </span>
+              ))}
+            </div>
+          </div>
+        </div>
+      </motion.div>
+    </section>
+  );
+}
+
+function ContactSection() {
+  return (
+    <section id="contact" className="px-5 pt-4 pb-16 sm:px-8">
+      <motion.div
+        variants={fadeUp}
+        initial="hidden"
+        whileInView="visible"
+        viewport={viewport}
+        transition={{ duration: 0.5 }}
+        className="mx-auto max-w-6xl rounded-2xl border border-[var(--line)] bg-[var(--surface)] p-5 sm:p-6"
+      >
+        <div className="grid gap-6 lg:grid-cols-[1fr_24rem] lg:items-center">
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-[0.26em] text-[var(--accent)]">Contact</p>
+            <h2 className="mt-2 text-2xl font-semibold text-[var(--foreground)]">
+              Looking for software engineering internships.
+            </h2>
+            <p className="mt-3 max-w-2xl text-sm leading-7 text-[var(--muted)]">
+              Interested in aerospace/defense software, ML-adjacent platforms,
+              data-heavy products, and teams that care about clean engineering.
+            </p>
+          </div>
+          <div className="grid gap-3">
+            <a
+              href={`mailto:${profile.email}`}
+              className="flex items-center justify-between rounded-xl border border-[var(--accent-border)] bg-[var(--accent-soft)] p-3 font-semibold text-[var(--accent)]"
+            >
+              <span className="flex items-center gap-2">
+                <Mail className="size-4" />
+                {profile.email}
+              </span>
+              <ArrowUpRight className="size-4" />
+            </a>
+            <div className="flex items-center gap-2 text-sm text-[var(--muted)]">
+              <BriefcaseBusiness className="size-4 text-[var(--accent)]" />
+              Open to software engineering internships
+            </div>
+          </div>
         </div>
       </motion.div>
     </section>

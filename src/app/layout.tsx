@@ -9,7 +9,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Darun Prasath Ramalingam | Software Engineering Portfolio",
     description:
-      "Premium portfolio for a Computer Engineering student focused on ML/AI research, full-stack systems, and backend platforms.",
+      "Portfolio for a Computer Engineering student focused on ML/AI research, full-stack systems, and backend platforms.",
     type: "website",
   },
 };
@@ -21,7 +21,22 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+try {
+  var theme = localStorage.getItem("theme");
+  if (!theme) {
+    theme = "dark";
+  }
+  document.documentElement.dataset.theme = theme;
+} catch (_) {}
+            `,
+          }}
+        />
+        {children}
+      </body>
     </html>
   );
 }
