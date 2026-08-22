@@ -1,298 +1,421 @@
-import type { LucideIcon } from "lucide-react";
-import {
-  Binary,
-  BookOpen,
-  BrainCircuit,
-  Braces,
-  Calculator,
-  Code2,
-  Cpu,
-  Database,
-  Github,
-  GraduationCap,
-  Layers3,
-  LineChart,
-  Linkedin,
-  Mail,
-  MapPin,
-  Network,
-  ServerCog,
-  Sparkles,
-  TerminalSquare,
-} from "lucide-react";
-
-export type SocialLink = {
-  label: string;
-  href: string;
-  icon: LucideIcon;
-};
-
-export type Experience = {
-  role: string;
-  company: string;
-  period: string;
-  location?: string;
-  highlights: string[];
-  icon: LucideIcon;
-};
-
-export type Project = {
-  title: string;
-  tech: string[];
-  description: string;
-  icon: LucideIcon;
-  accent: string;
-  category: ProjectCategory;
-  href?: string;
-};
-
-export type ProjectCategory = "ML/AI" | "Quant/Fintech" | "SWE";
-
-export type SkillGroup = {
-  title: string;
-  icon: LucideIcon;
-  skills: string[];
-};
-
-export const resumeEnabled = false;
-export const resumeHref = "/resume.pdf";
+import type {
+  AdditionalProject,
+  CapabilityRow,
+  Contact,
+  Credential,
+  Education,
+  Experience,
+  NavigationItem,
+  Profile,
+  Project,
+  SocialLink,
+} from "@/types/portfolio";
 
 export const profile = {
   name: "Darun Prasath Ramalingam",
-  location: "Dallas, Texas",
-  title: "Computer Engineering Student | Software Developer | ML/AI Research Assistant",
-  headline: "Building intelligent, scalable, and user-focused software.",
+  shortRole: "Computer Engineering @ UTD · Research Assistant @ Georgia Tech",
+  headline: "Building reliable systems from physical models to production software.",
   summary:
-    "Computer Engineering student at the University of Texas at Arlington with experience across ML/AI research, full-stack platforms, backend APIs, static analysis, data pipelines, and polished frontend systems.",
-  email: "dxr2311@mavs.uta.edu",
+    "I'm Darun Prasath Ramalingam, a Computer Engineering sophomore at UTD. My work spans semiconductor process modeling, embedded validation, robotics, digital verification, and full-stack engineering.",
+  location: "Dallas–Fort Worth, Texas",
+  opportunity:
+    "Open to internships and co-ops in embedded systems, hardware validation, robotics, semiconductor engineering, and software systems.",
   github: "https://github.com/darunr1",
-  linkedin: "https://www.linkedin.com/in/darun-prasath-ramalingam-1676b9289/",
-};
-
-export const socialLinks: SocialLink[] = [
-  {
-    label: "GitHub",
-    href: profile.github,
-    icon: Github,
-  },
-  {
-    label: "LinkedIn",
-    href: profile.linkedin,
-    icon: Linkedin,
-  },
-  {
-    label: "Email",
-    href: `mailto:${profile.email}`,
-    icon: Mail,
-  },
-];
-
-export const education = {
-  school: "University of Texas at Arlington",
-  degree: "Bachelor of Science in Computer Engineering",
-  graduation: "Expected Graduation: May 2028",
-  coursework: [
-    "MATH 1426 - Differential Calculus",
-    "MATH 2425 - Integral Calculus",
-    "MATH 2426 - Multivariable Calculus",
-    "PHYS 1443 - Mechanics",
-    "PHYS 1444 - Electricity & Magnetism",
-    "CSE 1310 - Introduction to Programming",
-    "CSE 1320 - Intermediate Programming",
-    "CSE 1106 - Computer Science & Engineering Lab",
+  linkedin:
+    "https://www.linkedin.com/in/darun-prasath-ramalingam-1676b9289/",
+  now: [
+    {
+      label: "Research",
+      value:
+        "Semiconductor Process Modeling Research Assistant, Georgia Institute of Technology",
+    },
+    {
+      label: "Education",
+      value:
+        "B.S. Computer Engineering, University of Texas at Dallas, expected May 2029",
+    },
+    {
+      label: "Focus",
+      value:
+        "Embedded validation · robotics · semiconductor modeling · software systems",
+    },
   ],
-};
+} as const satisfies Profile;
 
-export const skillGroups: SkillGroup[] = [
-  {
-    title: "Languages",
-    icon: Code2,
-    skills: [
-      "Python",
-      "Java",
-      "C",
-      "C++",
-      "JavaScript",
-      "TypeScript",
-      "SQL",
-      "HTML",
-      "CSS",
-    ],
-  },
-  {
-    title: "Libraries & Tools",
-    icon: TerminalSquare,
-    skills: [
-      "NumPy",
-      "Pandas",
-      "SciPy",
-      "Matplotlib",
-      "Pytest",
-      "React",
-      "Git",
-      "GitHub",
-      "Google Colab",
-      "Linux",
-      "VS Code",
-    ],
-  },
-  {
-    title: "Concepts",
-    icon: Network,
-    skills: [
-      "Data Structures",
-      "Algorithms",
-      "Numerical Methods",
-      "REST APIs",
-      "Statistical Modeling",
-      "Data Analysis",
-    ],
-  },
-];
+export const navigation = [
+  { number: "00", id: "index", label: "Index" },
+  { number: "01", id: "systems", label: "Selected systems" },
+  { number: "02", id: "experience", label: "Field experience" },
+  { number: "03", id: "capabilities", label: "Capability map" },
+  { number: "04", id: "foundation", label: "Foundation" },
+  { number: "05", id: "contact", label: "Contact" },
+] satisfies readonly NavigationItem[];
 
-export const experiences: Experience[] = [
-  {
-    role: "ML/AI Research Assistant",
-    company: "University of Texas at Arlington",
-    period: "Aug 2025 - Present",
-    location: "Arlington, TX",
-    icon: BrainCircuit,
-    highlights: [
-      "Turn research questions into repeatable analysis workflows for mining large Java repositories.",
-      "Clean and organize repository metadata so experiments can be reproduced across notebooks and scripts.",
-      "Compare structural code signals with refactoring behavior to understand where design issues appear.",
-      "Document findings and pipeline decisions so collaborators can review methods without reverse-engineering the code.",
-    ],
-  },
-  {
-    role: "Front-End Developer",
-    company: "Ascend Web Agency",
-    period: "Aug 2023 - Present",
-    location: "Remote",
-    icon: Layers3,
-    highlights: [
-      "Translate client goals into clean page structures, interaction patterns, and responsive front-end builds.",
-      "Refine layouts across breakpoints so pages feel intentional on both desktop and mobile.",
-      "Improve existing interfaces by simplifying hierarchy, spacing, and component behavior.",
-      "Coordinate feedback with clients and ship polished updates without overcomplicating the stack.",
-    ],
-  },
-  {
-    role: "Back-End Developer",
-    company: "PromptMesh",
-    period: "July 2024 - June 2025",
-    location: "Remote",
-    icon: ServerCog,
-    highlights: [
-      "Built service endpoints that connected prompt input, generation state, and asset delivery.",
-      "Handled long-running model generation with clear job states and predictable API responses.",
-      "Structured prompt, metadata, and output records so the product could track generated assets reliably.",
-    ],
-  },
-  {
-    role: "Front-End Developer Intern",
-    company: "AdWealth",
-    period: "Dec 2025 - Feb 2026",
-    location: "Remote",
-    icon: Sparkles,
-    highlights: [
-      "Created reusable interface sections for a nonprofit platform with donation and volunteer workflows.",
-      "Integrated payment paths into the site experience while keeping the user flow simple.",
-      "Built responsive screens that made program information, giving, and volunteer actions easier to find.",
-      "Supported secure content and asset delivery requirements as the platform moved toward launch.",
-    ],
-  },
-];
+export const sectionIntroductions = {
+  systems:
+    "Four case files selected for their system boundaries, verification work, and inspectable engineering evidence.",
+  experience:
+    "A chronological ledger of research, physical-system integration, technical competition, and product engineering.",
+  capabilities:
+    "Skills organized by engineering domain and tied to the work that demonstrates them.",
+  foundation:
+    "Formal study and an applied controls credential supporting the work above.",
+} as const;
 
-export const projectCategories: ProjectCategory[] = ["ML/AI", "Quant/Fintech", "SWE"];
+export const interfaceCopy = {
+  primaryCta: "Explore selected systems",
+  githubCta: "GitHub profile",
+  linkedinCta: "LinkedIn profile",
+  statusYear: "2026",
+} as const;
 
-export const projects: Project[] = [
+export const featuredProjects = [
   {
-    title: "Automated Code Smell Prioritization System",
-    tech: ["Java", "Python", "JDeodorant", "RefactoringMiner"],
-    description:
-      "Static analysis and repository mining system that ranks code smells using refactoring signals, AST proximity, and graph metrics.",
-    icon: Braces,
-    accent: "Static Analysis",
-    category: "SWE",
-  },
-  {
-    title: "AI 3D Model Generator",
-    tech: [
+    slug: "stock-recommendation-engine",
+    title: "Stock Recommendation Engine",
+    productName: "EquityLens",
+    category: "Full-stack research platform",
+    problem:
+      "Make equity research explainable by showing how deterministic factor scores, confidence, data warnings, and point-in-time evidence produce each ranking.",
+    summary:
+      "A full-stack research application with factor-based stock ranking, walk-forward backtests, watchlists, paper portfolios, authentication, operational jobs, and deployment-ready infrastructure.",
+    evidence: [
+      "Versioned momentum, trend, quality, value, and risk scoring with contributor explanations and SPY market context.",
+      "Monthly walk-forward backtests with next-session execution, costs, slippage, benchmark, and drawdown series.",
+      "Next.js web app, FastAPI services, PostgreSQL/Redis topology, Celery jobs, Alembic migrations, CI, smoke tests, and Vercel/Railway configuration.",
+    ],
+    technologies: [
       "Next.js",
       "TypeScript",
-      "Node.js",
-      "REST APIs",
-      "Three.js",
-      "React Three Fiber",
-      "Supabase",
+      "FastAPI",
+      "Python",
       "PostgreSQL",
+      "Redis",
+      "Celery",
+      "Alembic",
+      "Docker",
+      "Pytest",
+      "Vitest",
+      "Playwright",
     ],
-    description:
-      "Web app that converts natural language prompts into 3D models with generation tracking, backend services, and a browser-based 3D viewer.",
-    icon: Cpu,
-    accent: "AI Product",
-    category: "ML/AI",
+    status: "Built and deployment-configured; live demo not yet deployed",
+    visibility: "public",
+    repositoryUrl:
+      "https://github.com/darunr1/Stock-Recommendation-Engine",
+    disclaimer:
+      "For education and research only. The application does not place real trades, and simulated performance is not a guarantee of future results.",
+    visual: "screenshot",
+    featured: true,
   },
   {
+    slug: "autohil-validation-bench",
+    title: "AutoHIL Validation Bench",
+    category: "Embedded test and validation",
+    problem:
+      "Turn microcontroller behavior into repeatable pass/fail evidence instead of relying on manual bench checks.",
+    summary:
+      "A Python-controlled hardware-in-the-loop bench for an STM32 safety-controller model that exchanges JSON telemetry over USB serial, injects faults, measures latency, and writes test reports.",
+    evidence: [
+      "Portable C modules for sensor reads, state/fault management, telemetry formatting, command dispatch, and board abstraction.",
+      "Python runner for PING, status, sensor, fault-injection, recovery, and latency checks with CSV/JSON reporting.",
+      "NUCLEO-F401RE target adapter, wiring documentation, bring-up sequence, hardware tests, mock-serial tests, and GitHub Actions configuration.",
+    ],
+    technologies: [
+      "C",
+      "STM32 HAL",
+      "NUCLEO-F401RE",
+      "UART/USB Serial",
+      "JSON telemetry",
+      "Python",
+      "PySerial",
+      "Pytest",
+      "GitHub Actions",
+    ],
+    status:
+      "STM32-targeted MVP with portable firmware, mock-serial testing, and documented hardware bring-up",
+    visibility: "public",
+    repositoryUrl:
+      "https://github.com/darunr1/Embedded-HIL-Validation-Bench",
+    visual: "autohil-flow",
+    featured: true,
+  },
+  {
+    slug: "fpga-peripheral-verification-lab",
+    title: "FPGA Peripheral Verification Lab",
+    category: "Digital design verification",
+    problem:
+      "Verify a realistic peripheral at the register, protocol, timing, buffering, and error-handling levels—not just as isolated RTL blocks.",
+    summary:
+      "A memory-mapped UART peripheral composed of transmit, receive, FIFO, and top-level register modules, verified cycle-by-cycle with Python testbenches.",
+    evidence: [
+      "SystemVerilog implementations of UART TX, UART RX, synchronous FIFO, and MMIO top-level logic.",
+      "Cocotb regression suites for framing, FIFO behavior, register transactions, and integrated peripheral behavior.",
+      "Icarus Verilog simulation, VCD waveform workflow, register map, verification plan, and debugging documentation.",
+    ],
+    technologies: [
+      "SystemVerilog",
+      "Python",
+      "cocotb",
+      "Icarus Verilog",
+      "GTKWave",
+      "UART",
+      "FIFO",
+      "MMIO",
+      "Make",
+    ],
+    status: "RTL implemented and verified in open-source simulation",
+    visibility: "public",
+    repositoryUrl:
+      "https://github.com/darunr1/FPGA-Peripheral-Verification-Lab",
+    visual: "fpga-flow",
+    featured: true,
+  },
+  {
+    slug: "embedded-telemetry-logger",
+    title: "Embedded Telemetry Logger",
+    category: "Firmware and telemetry systems",
+    problem:
+      "Make embedded state observable, parsable, and reviewable across firmware and host tooling.",
+    summary:
+      "A modular C/Python telemetry system that emits newline-delimited JSON packets, parses and logs them on a host, computes statistics, and generates human-readable reports.",
+    evidence: [
+      "C99 modules for ADC/I2C sensor interfaces, GPIO status, faults, time, commands, and telemetry packets.",
+      "Python CLI for simulation, serial runs, device commands, CSV/JSONL logging, summaries, and report generation.",
+      "Hardware-free simulator, sample logs, protocol/wiring/test documentation, and a host-side pytest suite.",
+    ],
+    technologies: [
+      "C99",
+      "STM32-oriented firmware",
+      "UART",
+      "JSONL",
+      "Python",
+      "PySerial",
+      "pandas",
+      "Matplotlib",
+      "Pytest",
+    ],
+    status:
+      "Host-simulated pipeline with STM32-oriented interfaces; hardware port remains documented work",
+    visibility: "public",
+    repositoryUrl:
+      "https://github.com/darunr1/Embedded-Telemetry-Logger",
+    visual: "telemetry-flow",
+    featured: true,
+  },
+] as const satisfies readonly Project[];
+
+export const additionalProjects = [
+  {
+    slug: "world-cup-analytics",
+    title: "World Cup Analytics",
+    summary:
+      "Leakage-safe soccer prediction pipeline with pre-match Elo/form/market features, auditable outcome models, FastAPI/CLI interfaces, and chronological walk-forward evaluation.",
+    status: "Repository is currently private",
+    visibility: "private",
+    repositoryUrl: null,
+    visual: "text-index",
+    featured: false,
+  },
+  {
+    slug: "algorithmic-trading-backtester",
     title: "Algorithmic Trading Backtester",
-    tech: ["Python", "Pandas", "NumPy", "Matplotlib", "Pytest"],
-    description:
-      "Modular backtesting system with slippage, fees, latency, stop-losses, dynamic sizing, walk-forward validation, and performance metrics.",
-    icon: LineChart,
-    accent: "Quant Systems",
-    category: "Quant/Fintech",
+    summary:
+      "Modular research engine for strategies, execution friction, risk controls, portfolio accounting, walk-forward analysis, and performance reports.",
+    status: "Repository is currently private",
+    visibility: "private",
+    repositoryUrl: null,
+    visual: "text-index",
+    featured: false,
   },
   {
+    slug: "adaptive-pde-solver-for-option-pricing",
     title: "Adaptive PDE Solver for Option Pricing",
-    tech: ["Python", "Numerical PDEs", "Black-Scholes", "Benchmarking", "Pytest"],
-    description:
-      "European option pricing project that compares a fixed-grid PDE solver with an adaptive solver focused near critical regions such as expiration.",
-    icon: Calculator,
-    accent: "Numerical Finance",
-    category: "Quant/Fintech",
-    href: "https://github.com/darunr1/Adaptive-PDE-Solver-For-Option-Pricing",
+    summary:
+      "Fixed-grid and adaptive numerical solvers benchmarked against Black–Scholes with tests and convergence analysis.",
+    status: "Repository is currently private",
+    visibility: "private",
+    repositoryUrl: null,
+    visual: "text-index",
+    featured: false,
   },
-];
+  {
+    slug: "ai-3d-model-generator",
+    title: "AI 3D Model Generator",
+    summary:
+      "Next.js/TypeScript interface for prompt-driven model selection, interactive Three.js viewing, and GLB download.",
+    status: "Repository is currently private",
+    visibility: "private",
+    repositoryUrl: null,
+    visual: "text-index",
+    featured: false,
+  },
+] as const satisfies readonly AdditionalProject[];
 
-export const heroMetrics = [
+export const experiences = [
   {
-    value: "2028",
-    label: "Expected graduation",
+    organization: "Georgia Institute of Technology",
+    role: "Semiconductor Process Modeling Research Assistant",
+    dates: "Aug 2026 – Present",
+    typeLocation: "Part-time · Remote · Atlanta, Georgia",
+    highlights: [
+      "Developed workflows to generate simulation datasets and evaluate machine-learning surrogate models that approximate computationally expensive physics-based simulations.",
+      "Analyzed process inputs, outputs, modeling assumptions, and solver capabilities to support semiconductor manufacturing research.",
+    ],
+    capabilities: [
+      "Semiconductor Engineering",
+      "Process Modeling",
+      "Python",
+      "Research Skills",
+    ],
   },
   {
-    value: "4",
-    label: "Technical roles",
+    organization: "FloLabsInnovationsGroup",
+    role: "Robotics Engineering Intern",
+    dates: "May 2026 – Aug 2026",
+    typeLocation: "Internship · Hybrid · Austin, Texas",
+    highlights: [
+      "Integrated and tested humanoid robotic subsystems combining sensors, actuators, microcontroller-based control, circuitry, and mechanical assemblies.",
+      "Diagnosed hardware/software integration issues by validating sensor feedback, actuator response, and real-time control behavior.",
+    ],
+    capabilities: [
+      "C++",
+      "STM32/ESP32",
+      "Computer-Aided Design (CAD)",
+      "Testing & Validation",
+    ],
   },
   {
-    value: "4",
-    label: "Featured systems",
+    organization: "Business Professionals of America",
+    role: "Competitor (C++ Programming)",
+    dates: "Aug 2023 – May 2025",
+    typeLocation: "Seasonal · On-site · Frisco, Texas",
+    highlights: [
+      "Applied C++ programming fundamentals—including control structures, functions, and data structures—to timed problem-solving challenges.",
+      "Strengthened algorithmic thinking, debugging accuracy, and code efficiency under competition constraints.",
+    ],
+    capabilities: ["C++", "Algorithms", "Data Structures"],
   },
-];
+  {
+    organization: "Comet",
+    role: "Software Engineering Intern",
+    dates: "May 2023 – Aug 2023",
+    typeLocation: "Internship · Remote · Santa Clara, California",
+    highlights: [
+      "Developed and tested Python features for a student-focused college application platform to improve workflows and functionality.",
+      "Supported feature planning, UI testing, debugging, and collaboration on scalable student-productivity tools.",
+    ],
+    capabilities: ["Python", "Systems Design", "UI/UX Design"],
+  },
+] as const satisfies readonly Experience[];
 
-export const signatureSignals = [
+export const capabilityRows = [
   {
-    label: "ML research",
-    icon: BrainCircuit,
+    domain: "Semiconductor & research",
+    skills: [
+      "Semiconductor Engineering",
+      "Process Modeling",
+      "Research Skills",
+    ],
+    evidence: ["Georgia Tech research"],
   },
   {
-    label: "Full-stack platforms",
-    icon: Binary,
+    domain: "Embedded & physical systems",
+    skills: [
+      "Embedded Systems",
+      "STM32/ESP32",
+      "Control Systems",
+      "Testing & Validation",
+      "Computer-Aided Design (CAD)",
+      "Systems Design",
+    ],
+    evidence: ["FloLabs", "AutoHIL", "Embedded Telemetry Logger"],
   },
   {
-    label: "Data pipelines",
-    icon: Database,
+    domain: "Software & computation",
+    skills: [
+      "C",
+      "C++",
+      "Python",
+      "Data Structures",
+      "Algorithms",
+      "Full-Stack Development",
+      "UI/UX Design",
+    ],
+    evidence: [
+      "Stock Recommendation Engine",
+      "FPGA Verification Lab",
+      "Comet",
+      "BPA",
+    ],
   },
   {
-    label: "Dallas, TX",
-    icon: MapPin,
+    domain: "Mathematical foundation",
+    skills: ["Multivariable Calculus"],
+    evidence: ["UTD coursework", "numerical/PDE projects"],
   },
-  {
-    label: "UTA Computer Engineering",
-    icon: GraduationCap,
+] as const satisfies readonly CapabilityRow[];
+
+export const projectTechnologies = [
+  "TypeScript",
+  "Next.js",
+  "FastAPI",
+  "PostgreSQL",
+  "Redis",
+  "Docker",
+  "SystemVerilog",
+  "cocotb",
+  "UART",
+  "Pytest",
+  "GitHub Actions",
+] as const;
+
+export const education = {
+  university: {
+    institution: "The University of Texas at Dallas",
+    credential: "Bachelor of Science in Computer Engineering",
+    dates: "Aug 2025 – May 2029",
+    standing: "Sophomore",
+    activities: ["Dallas Formula Racing", "Comet Robotics", "IEEE", "ACM"],
+    foundation: [
+      "Physics I & II",
+      "Discrete Mathematics",
+      "Calculus I–III",
+      "Linear Algebra",
+      "Differential Equations",
+    ],
   },
-  {
-    label: "Research-ready systems",
-    icon: BookOpen,
+  highSchool: {
+    institution: "Emerson High School",
+    credential: "High School Diploma",
+    dates: "Aug 2022 – May 2025",
+    activities: [
+      "Business Professionals of America",
+      "National Honor Society",
+    ],
+    foundation: [
+      "AP Physics 1",
+      "AP Physics 2",
+      "AP Biology",
+      "AP Chemistry",
+      "AP Statistics",
+    ],
   },
-];
+} as const satisfies Education;
+
+export const credential = {
+  issuer: "Johnson & Johnson MedTech",
+  name: "Robotics and Controls",
+  issued: "Aug 2026",
+  credentialId: "a6Lh5xvoWPzxI2NDD",
+  url: null,
+} as const satisfies Credential;
+
+export const contact = {
+  heading: "Let's build systems that have to work in the real world.",
+  body: "I'm interested in internship and co-op opportunities across embedded systems, hardware validation, robotics, semiconductor engineering, and software systems.",
+} as const satisfies Contact;
+
+export const socialLinks = [
+  { label: "GitHub", href: profile.github },
+  { label: "LinkedIn", href: profile.linkedin },
+] as const satisfies readonly SocialLink[];

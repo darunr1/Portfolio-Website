@@ -3,13 +3,13 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Darun Prasath Ramalingam | Software Engineering Portfolio",
+  title: "Darun Prasath Ramalingam | Computer Engineering Portfolio",
   description:
-    "Computer Engineering student, software developer, and ML/AI research assistant building intelligent, scalable, and user-focused software.",
+    "Computer Engineering student at UTD building semiconductor modeling workflows, embedded validation systems, robotics integrations, digital verification tools, and full-stack software.",
   openGraph: {
-    title: "Darun Prasath Ramalingam | Software Engineering Portfolio",
+    title: "Darun Prasath Ramalingam — Computer Engineering Portfolio",
     description:
-      "Portfolio for a Computer Engineering student focused on ML/AI research, full-stack systems, and backend platforms.",
+      "Selected work across semiconductor process modeling, embedded systems, robotics, FPGA verification, and full-stack engineering.",
     type: "website",
   },
 };
@@ -20,17 +20,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body>
         <script
           dangerouslySetInnerHTML={{
             __html: `
 try {
-  var theme = localStorage.getItem("theme");
-  if (!theme) {
-    theme = "dark";
-  }
-  document.documentElement.dataset.theme = theme;
+  var storedTheme = localStorage.getItem("theme");
+  document.documentElement.dataset.theme = storedTheme === "light" ? "light" : "dark";
 } catch (_) {}
             `,
           }}

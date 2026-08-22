@@ -1,0 +1,144 @@
+.figure {
+  container-type: inline-size;
+  margin: 0;
+  padding: clamp(1rem, 2.5vw, 1.5rem);
+  overflow: hidden;
+  border-block: 1px solid var(--line);
+  background: var(--surface-soft);
+}
+
+.heading {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.35rem 1rem;
+  margin-bottom: 1rem;
+}
+
+.eyebrow,
+.stepNumber {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+    "Liberation Mono", "Courier New", monospace;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.eyebrow {
+  color: var(--accent);
+}
+
+.title {
+  color: var(--muted-strong);
+  font-size: 0.75rem;
+  font-weight: 650;
+  letter-spacing: 0.04em;
+}
+
+.flow {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 1.6rem;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.step {
+  position: relative;
+  display: grid;
+  align-content: start;
+  min-width: 0;
+  min-height: 7.25rem;
+  padding: 0.9rem;
+  border: 1px solid var(--line);
+  border-radius: 0.5rem;
+  background: var(--surface);
+}
+
+.step:not(:last-child)::after {
+  position: absolute;
+  top: 100%;
+  left: 1.2rem;
+  width: 1px;
+  height: 1.65rem;
+  background: var(--accent-border);
+  content: "";
+}
+
+.step:not(:last-child)::before {
+  position: absolute;
+  top: calc(100% + 1.25rem);
+  left: 1.0125rem;
+  z-index: 1;
+  width: 0.4rem;
+  height: 0.4rem;
+  border-right: 1px solid var(--accent);
+  border-bottom: 1px solid var(--accent);
+  content: "";
+  transform: rotate(45deg);
+}
+
+.stepNumber {
+  display: block;
+  margin-bottom: 1.15rem;
+  color: var(--accent);
+}
+
+.stepLabel {
+  color: var(--foreground);
+  font-size: 0.875rem;
+  font-weight: 700;
+  line-height: 1.35;
+  text-wrap: balance;
+}
+
+.stepDetail {
+  margin-top: 0.4rem;
+  color: var(--muted-strong);
+  font-size: 0.75rem;
+  line-height: 1.45;
+}
+
+.caption {
+  max-width: 68ch;
+  margin-top: 1rem;
+  color: var(--muted-strong);
+  font-size: 0.75rem;
+  line-height: 1.55;
+}
+
+@container (min-width: 30rem) {
+  .flow {
+    gap: 1.4rem;
+  }
+
+  .threeSteps {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .fourSteps {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .step {
+    min-height: 8rem;
+  }
+
+  .step:not(:last-child)::after {
+    top: 1.2rem;
+    right: -1.45rem;
+    left: 100%;
+    width: 1.45rem;
+    height: 1px;
+  }
+
+  .step:not(:last-child)::before {
+    top: 1.0125rem;
+    right: -1.375rem;
+    left: auto;
+    transform: rotate(-45deg);
+  }
+}
