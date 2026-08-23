@@ -44,8 +44,8 @@ export const profile = {
 
 export const navigation = [
   { number: "00", id: "index", label: "Index" },
-  { number: "01", id: "systems", label: "Selected systems" },
-  { number: "02", id: "experience", label: "Field experience" },
+  { number: "01", id: "experience", label: "Experience" },
+  { number: "02", id: "systems", label: "Selected systems" },
   { number: "03", id: "capabilities", label: "Capability map" },
   { number: "04", id: "foundation", label: "Foundation" },
   { number: "05", id: "contact", label: "Contact" },
@@ -53,17 +53,17 @@ export const navigation = [
 
 export const sectionIntroductions = {
   systems:
-    "Four case files selected for their system boundaries, verification work, and inspectable engineering evidence.",
+    "Four system records selected for their boundaries, verification work, and inspectable engineering evidence.",
   experience:
     "A chronological ledger of research, physical-system integration, technical competition, and product engineering.",
   capabilities:
     "Skills organized by engineering domain and tied to the work that demonstrates them.",
   foundation:
-    "Formal study and an applied controls credential supporting the work above.",
+    "Formal study and applied industry credentials supporting the work above.",
 } as const;
 
 export const interfaceCopy = {
-  primaryCta: "Explore selected systems",
+  primaryCta: "Explore experience",
   githubCta: "GitHub profile",
   linkedinCta: "LinkedIn profile",
   statusYear: "2026",
@@ -256,55 +256,49 @@ export const experiences = [
     organization: "Georgia Institute of Technology",
     role: "Semiconductor Process Modeling Research Assistant",
     dates: "Aug 2026 – Present",
-    typeLocation: "Part-time · Remote · Atlanta, Georgia",
+    engagement: "Part-time",
+    workMode: "Remote",
+    location: "Atlanta, Georgia",
     highlights: [
-      "Developed workflows to generate simulation datasets and evaluate machine-learning surrogate models that approximate computationally expensive physics-based simulations.",
-      "Analyzed process inputs, outputs, modeling assumptions, and solver capabilities to support semiconductor manufacturing research.",
-    ],
-    capabilities: [
-      "Semiconductor Engineering",
-      "Process Modeling",
-      "Python",
-      "Research Skills",
+      "Built workflows that generate simulation datasets and evaluate ML surrogates for physics-based models.",
+      "Analyzed process inputs, solver behavior, and modeling assumptions for semiconductor research.",
     ],
   },
   {
     organization: "FloLabsInnovationsGroup",
     role: "Robotics Engineering Intern",
     dates: "May 2026 – Aug 2026",
-    typeLocation: "Internship · Hybrid · Austin, Texas",
+    engagement: "Internship",
+    workMode: "Hybrid",
+    location: "Austin, Texas",
     highlights: [
-      "Integrated and tested humanoid robotic subsystems combining sensors, actuators, microcontroller-based control, circuitry, and mechanical assemblies.",
-      "Diagnosed hardware/software integration issues by validating sensor feedback, actuator response, and real-time control behavior.",
-    ],
-    capabilities: [
-      "C++",
-      "STM32/ESP32",
-      "Computer-Aided Design (CAD)",
-      "Testing & Validation",
+      "Integrated and tested humanoid robotics subsystems across sensors, actuators, controllers, circuitry, and mechanics.",
+      "Diagnosed hardware/software issues through sensor, actuator, and real-time control validation.",
     ],
   },
   {
     organization: "Business Professionals of America",
     role: "Competitor (C++ Programming)",
     dates: "Aug 2023 – May 2025",
-    typeLocation: "Seasonal · On-site · Frisco, Texas",
+    engagement: "Seasonal",
+    workMode: "On-site",
+    location: "Frisco, Texas",
     highlights: [
-      "Applied C++ programming fundamentals—including control structures, functions, and data structures—to timed problem-solving challenges.",
+      "Solved timed C++ challenges using control structures, functions, and data structures.",
       "Strengthened algorithmic thinking, debugging accuracy, and code efficiency under competition constraints.",
     ],
-    capabilities: ["C++", "Algorithms", "Data Structures"],
   },
   {
     organization: "Comet",
     role: "Software Engineering Intern",
     dates: "May 2023 – Aug 2023",
-    typeLocation: "Internship · Remote · Santa Clara, California",
+    engagement: "Internship",
+    workMode: "Remote",
+    location: "Santa Clara, California",
     highlights: [
-      "Developed and tested Python features for a student-focused college application platform to improve workflows and functionality.",
-      "Supported feature planning, UI testing, debugging, and collaboration on scalable student-productivity tools.",
+      "Developed and tested Python features for a student-focused college application platform.",
+      "Supported feature planning, UI testing, and debugging for student-productivity workflows.",
     ],
-    capabilities: ["Python", "Systems Design", "UI/UX Design"],
   },
 ] as const satisfies readonly Experience[];
 
@@ -384,31 +378,17 @@ export const education = {
       "Differential Equations",
     ],
   },
-  highSchool: {
-    institution: "Emerson High School",
-    credential: "High School Diploma",
-    dates: "Aug 2022 – May 2025",
-    activities: [
-      "Business Professionals of America",
-      "National Honor Society",
-    ],
-    foundation: [
-      "AP Physics 1",
-      "AP Physics 2",
-      "AP Biology",
-      "AP Chemistry",
-      "AP Statistics",
-    ],
-  },
 } as const satisfies Education;
 
-export const credential = {
-  issuer: "Johnson & Johnson MedTech",
-  name: "Robotics and Controls",
-  issued: "Aug 2026",
-  credentialId: "a6Lh5xvoWPzxI2NDD",
-  url: null,
-} as const satisfies Credential;
+export const credentials: readonly Credential[] = [
+  {
+    slug: "johnson-johnson-medtech-robotics-controls",
+    issuer: "Johnson & Johnson MedTech",
+    name: "Robotics and Controls",
+    issued: "Aug 2026",
+    credentialId: "a6Lh5xvoWPzxI2NDD",
+  },
+];
 
 export const contact = {
   heading: "Let's build systems that have to work in the real world.",

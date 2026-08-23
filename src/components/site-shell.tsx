@@ -1,7 +1,7 @@
 import { ArrowUpRight, Github, Linkedin } from "lucide-react";
 import type { ReactNode } from "react";
 
-import { profile } from "@/data/portfolio";
+import { interfaceCopy, profile } from "@/data/portfolio";
 
 import { SectionIndex } from "./section-index";
 import { ThemeToggle } from "./theme-toggle";
@@ -26,6 +26,10 @@ export function SiteShell({ children }: { children: ReactNode }) {
           </a>
 
           <p className="rail-role">{profile.shortRole.split(" · ")[0]}</p>
+          <div className="rail-document-meta" aria-label="Document type">
+            <span>Systems Fieldbook</span>
+            <span>Portfolio / {interfaceCopy.statusYear}</span>
+          </div>
           <SectionIndex />
 
           <div className="rail-footer">

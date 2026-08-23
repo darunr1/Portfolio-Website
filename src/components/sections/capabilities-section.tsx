@@ -10,6 +10,7 @@ export function CapabilitiesSection() {
         number="03"
         title="Capability map"
         description={sectionIntroductions.capabilities}
+        descriptor="Domains / evidence trace"
       />
 
       <div className="capability-matrix" role="table" aria-label="Engineering capabilities and evidence">
@@ -24,15 +25,31 @@ export function CapabilitiesSection() {
               <span>{String(index + 1).padStart(2, "0")}</span>
               <h3>{row.domain}</h3>
             </div>
-            <p role="cell" data-label="Skills">{row.skills.join(" · ")}</p>
-            <p role="cell" data-label="Evidence">{row.evidence.join(" · ")}</p>
+            <div role="cell" data-label="Skills">
+              <ul className="capability-row__items">
+                {row.skills.map((skill) => (
+                  <li key={skill}>{skill}</li>
+                ))}
+              </ul>
+            </div>
+            <div role="cell" data-label="Evidence">
+              <ul className="capability-row__items capability-row__evidence">
+                {row.evidence.map((item) => (
+                  <li key={item}>{item}</li>
+                ))}
+              </ul>
+            </div>
           </div>
         ))}
       </div>
 
       <div className="project-technologies">
         <span>Technologies used in projects</span>
-        <p>{projectTechnologies.join(" / ")}</p>
+        <ul>
+          {projectTechnologies.map((technology) => (
+            <li key={technology}>{technology}</li>
+          ))}
+        </ul>
       </div>
     </section>
   );

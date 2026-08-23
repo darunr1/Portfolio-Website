@@ -89,9 +89,10 @@ export type Experience = {
   organization: string;
   role: string;
   dates: string;
-  typeLocation: string;
+  engagement: string;
+  workMode: "Remote" | "Hybrid" | "On-site";
+  location: string;
   highlights: readonly [string, string];
-  capabilities: readonly string[];
 };
 
 export type CapabilityDomain =
@@ -115,23 +116,15 @@ export type UniversityEducation = {
   foundation: readonly string[];
 };
 
-export type HighSchoolEducation = {
-  institution: "Emerson High School";
-  credential: "High School Diploma";
-  dates: "Aug 2022 – May 2025";
-  activities: readonly string[];
-  foundation: readonly string[];
-};
-
 export type Education = {
   university: UniversityEducation;
-  highSchool: HighSchoolEducation;
 };
 
 export type Credential = {
-  issuer: "Johnson & Johnson MedTech";
-  name: "Robotics and Controls";
-  issued: "Aug 2026";
-  credentialId: "a6Lh5xvoWPzxI2NDD";
-  url: null;
+  slug: string;
+  issuer: string;
+  name: string;
+  issued: string;
+  credentialId?: string;
+  url?: string;
 };

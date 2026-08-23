@@ -25,7 +25,7 @@ export function HeroSection() {
           </div>
 
           <div className="hero-actions">
-            <a className="action-link action-link--primary" href="#systems">
+            <a className="action-link action-link--primary" href="#experience">
               {interfaceCopy.primaryCta}
               <ArrowDown size={16} aria-hidden="true" />
             </a>
@@ -63,8 +63,11 @@ export function HeroSection() {
             <span>{interfaceCopy.statusYear}</span>
           </div>
           <dl>
-            {profile.now.map((item) => (
+            {profile.now.map((item, index) => (
               <div key={item.label}>
+                <span className="now-panel__index" aria-hidden="true">
+                  {String(index + 1).padStart(2, "0")}
+                </span>
                 <dt>{item.label}</dt>
                 <dd>{item.value}</dd>
               </div>

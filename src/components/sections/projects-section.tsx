@@ -1,20 +1,20 @@
 import Image from "next/image";
-import { ArrowUpRight, Github } from "lucide-react";
+import { ArrowUpRight, ChevronDown, Github } from "lucide-react";
 
 import { AutoHilFlow, FpgaFlow, TelemetryFlow } from "@/components/project-visuals";
-import { additionalProjects, featuredProjects, sectionIntroductions } from "@/data/portfolio";
+import { featuredProjects, sectionIntroductions } from "@/data/portfolio";
 import type { Project } from "@/types/portfolio";
 
 import { SectionHeading } from "./section-heading";
 
-function ProjectVisual({ project }: { project: Project }) {
+function ProjectVisual({ project, index }: { project: Project; index: number }) {
   if (project.visual === "screenshot") {
     return (
       <figure className="dashboard-visual">
         <div className="dashboard-visual__bar" aria-hidden="true">
           <span />
           <span>EquityLens / research workspace</span>
-          <span>01</span>
+          <span>02.{String(index + 1).padStart(2, "0")}</span>
         </div>
         <a
           className="dashboard-visual__image"
@@ -50,81 +50,99 @@ function ProjectVisual({ project }: { project: Project }) {
   return <TelemetryFlow />;
 }
 
-function ProjectCase({ project, index }: { project: Project; index: number }) {
-  const caseNumber = String(index + 1).padStart(2, "0");
+function ProjectRecord({ project, index }: { project: Project; index: number }) {
+  const recordNumber = String(index + 1).padStart(2, "0");
   const hasRepository = project.visibility === "public" && Boolean(project.repositoryUrl);
+  const artifactLabel =
+    project.visual === "screenshot" ? "Inspect interface capture" : "Inspect system path";
 
   return (
-    <article className="project-case" aria-labelledby={`project-${project.slug}`}>
-      <header className="project-case__header">
-        <div>
-          <span className="project-case__number">01.{caseNumber}</span>
-          <span className="project-case__category">{project.category}</span>
+    <li>
+      <article className="project-entry" aria-labelledby={`project-${project.slug}`}>
+        <div className="project-entry__track" aria-hidden="true">
+          <span>{recordNumber}</span>
+          <i />
         </div>
-        <span className="status-label">{project.status}</span>
-      </header>
 
-      <div className="project-case__grid">
-        <div className="project-case__content">
+        <div className="project-entry__identity">
+          <p>{project.category}</p>
           {project.productName ? <p className="product-name">{project.productName}</p> : null}
           <h3 id={`project-${project.slug}`}>{project.title}</h3>
-
-          <div className="case-statement">
-            <span>Problem</span>
-            <p>{project.problem}</p>
+          <div className="project-entry__links">
+            <span className="visibility-label">{project.visibility} repository</span>
+            {hasRepository ? (
+              <a
+                className="repository-link"
+                href={project.repositoryUrl}
+                target="_blank"
+                rel="noreferrer"
+              >
+                <Github size={14} aria-hidden="true" />
+                Repository
+                <ArrowUpRight size={13} aria-hidden="true" />
+                <span className="sr-only"> (opens in a new tab)</span>
+              </a>
+            ) : null}
           </div>
+        </div>
 
-          <div className="case-statement">
-            <span>Build</span>
-            <p>{project.summary}</p>
+        <dl className="project-entry__brief">
+          <div>
+            <dt>Problem</dt>
+            <dd>{project.problem}</dd>
           </div>
+          <div>
+            <dt>Build</dt>
+            <dd>{project.summary}</dd>
+          </div>
+        </dl>
 
-          <div className="case-evidence">
-            <p className="micro-label">Evidence</p>
-            <ul>
-              {project.evidence.map((item) => (
-                <li key={item}>{item}</li>
+        <div className="project-entry__evidence">
+          <p className="micro-label">Evidence</p>
+          <ol>
+            {project.evidence.map((item, evidenceIndex) => (
+              <li key={item}>
+                <span aria-hidden="true">E{String(evidenceIndex + 1).padStart(2, "0")}</span>
+                <p>{item}</p>
+              </li>
+            ))}
+          </ol>
+        </div>
+
+        <div className="project-entry__meta">
+          <div className="technology-line">
+            <span>Technology</span>
+            <ul aria-label={`${project.title} technologies`}>
+              {project.technologies.map((technology) => (
+                <li key={technology}>{technology}</li>
               ))}
             </ul>
           </div>
+
+          <div className="project-entry__status">
+            <span>Status</span>
+            <p>{project.status}</p>
+          </div>
+
+          {project.disclaimer ? (
+            <p className="project-disclaimer">
+              <strong>Scope note.</strong> {project.disclaimer}
+            </p>
+          ) : null}
         </div>
 
-        <div className="project-case__visual">
-          <ProjectVisual project={project} />
-        </div>
-      </div>
-
-      <footer className="project-case__footer">
-        <div className="technology-line">
-          <span>Technology</span>
-          <ul aria-label={`${project.title} technologies`}>
-            {project.technologies.map((technology) => (
-              <li key={technology}>{technology}</li>
-            ))}
-          </ul>
-        </div>
-
-        {hasRepository ? (
-          <a
-            className="repository-link"
-            href={project.repositoryUrl}
-            target="_blank"
-            rel="noreferrer"
-          >
-            <Github size={16} aria-hidden="true" />
-            View repository
-            <ArrowUpRight size={14} aria-hidden="true" />
-            <span className="sr-only"> (opens in a new tab)</span>
-          </a>
-        ) : null}
-      </footer>
-
-      {project.disclaimer ? (
-        <p className="project-disclaimer">
-          <strong>Scope note.</strong> {project.disclaimer}
-        </p>
-      ) : null}
-    </article>
+        <details className="project-entry__artifact">
+          <summary>
+            <span>Artifact {recordNumber}</span>
+            <strong>{artifactLabel}</strong>
+            <ChevronDown size={15} aria-hidden="true" />
+          </summary>
+          <div className="project-entry__artifact-body">
+            <ProjectVisual project={project} index={index} />
+          </div>
+        </details>
+      </article>
+    </li>
   );
 }
 
@@ -133,38 +151,18 @@ export function ProjectsSection() {
     <section id="systems" className="field-section" aria-labelledby="systems-heading">
       <SectionHeading
         id="systems-heading"
-        number="01"
+        number="02"
         title="Selected systems"
         description={sectionIntroductions.systems}
+        descriptor="Systems ledger / public evidence"
       />
 
-      <div className="project-cases">
+      <ol className="project-ledger">
         {featuredProjects.map((project, index) => (
-          <ProjectCase key={project.slug} project={project} index={index} />
+          <ProjectRecord key={project.slug} project={project} index={index} />
         ))}
-      </div>
+      </ol>
 
-      <div className="additional-builds" aria-labelledby="additional-builds-heading">
-        <div className="additional-builds__intro">
-          <p className="micro-label">01.B / Index</p>
-          <h3 id="additional-builds-heading">Additional builds</h3>
-          <p>Relevant systems in private repositories, indexed without overstating their public evidence.</p>
-        </div>
-        <ol>
-          {additionalProjects.map((project, index) => (
-            <li key={project.slug}>
-              <span className="additional-builds__number">
-                {String(index + 1).padStart(2, "0")}
-              </span>
-              <div>
-                <h4>{project.title}</h4>
-                <p>{project.summary}</p>
-              </div>
-              <span className="private-label">Private repository</span>
-            </li>
-          ))}
-        </ol>
-      </div>
     </section>
   );
 }

@@ -33,8 +33,8 @@ export default function Home() {
   return (
     <SiteShell>
       <HeroSection />
-      <ProjectsSection />
       <ExperienceSection />
+      <ProjectsSection />
       <CapabilitiesSection />
       <FoundationSection />
       <ContactSection />
