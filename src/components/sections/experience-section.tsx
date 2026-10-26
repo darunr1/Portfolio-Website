@@ -45,7 +45,7 @@ export function ExperienceSection() {
               </div>
 
               <div className="experience-entry__evidence">
-                <p className="micro-label">Evidence</p>
+                <p className="micro-label">Description</p>
                 <ul>
                   {experience.highlights.map((highlight) => (
                     <li key={highlight}>{highlight}</li>
