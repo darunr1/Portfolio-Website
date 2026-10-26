@@ -265,18 +265,6 @@ export const experiences = [
     ],
   },
   {
-    organization: "FloLabsInnovationsGroup",
-    role: "Robotics Engineering Intern",
-    dates: "May 2026 – Aug 2026",
-    engagement: "Internship",
-    workMode: "Hybrid",
-    location: "Austin, Texas",
-    highlights: [
-      "Integrated and tested humanoid robotics subsystems across sensors, actuators, controllers, circuitry, and mechanics.",
-      "Diagnosed hardware/software issues through sensor, actuator, and real-time control validation.",
-    ],
-  },
-  {
     organization: "Business Professionals of America",
     role: "Competitor (C++ Programming)",
     dates: "Aug 2023 – May 2025",
@@ -322,7 +310,7 @@ export const capabilityRows = [
       "Computer-Aided Design (CAD)",
       "Systems Design",
     ],
-    evidence: ["FloLabs", "AutoHIL", "Embedded Telemetry Logger"],
+    evidence: ["AutoHIL", "Embedded Telemetry Logger"],
   },
   {
     domain: "Software & computation",
