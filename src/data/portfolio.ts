@@ -53,7 +53,7 @@ export const navigation = [
 
 export const sectionIntroductions = {
   systems:
-    "Four system records selected for their boundaries, verification work, and inspectable engineering evidence.",
+    "Four systems selected for their engineering boundaries, verification work, and documented implementation details.",
   experience:
     "A chronological ledger of research, physical-system integration, technical competition, and product engineering.",
   capabilities:
@@ -76,7 +76,7 @@ export const featuredProjects = [
     productName: "EquityLens",
     category: "Full-stack research platform",
     problem:
-      "Make equity research explainable by showing how deterministic factor scores, confidence, data warnings, and point-in-time evidence produce each ranking.",
+      "Make equity research explainable by showing how deterministic factor scores, confidence, data warnings, and point-in-time data produce each ranking.",
     summary:
       "A full-stack research application with factor-based stock ranking, walk-forward backtests, watchlists, paper portfolios, authentication, operational jobs, and deployment-ready infrastructure.",
     evidence: [
@@ -254,14 +254,14 @@ export const additionalProjects = [
 export const experiences = [
   {
     organization: "Dallas Formula Racing",
-    role: "Firmware Engineer (Onboarding)",
-    dates: "Sep 2026 – Present",
+    role: "Firmware Engineer",
+    dates: "Aug 2026 – Present",
     engagement: "Student engineering team",
     workMode: "On-site",
     location: "Richardson, Texas",
     highlights: [
-      "Progressing through firmware-team onboarding and working with the team’s GitHub repository.",
-      "Preparing for electric-vehicle firmware work involving data acquisition, wireless communication, and hardware/software integration.",
+      "Contributing to electric-vehicle firmware development, with responsibilities spanning data acquisition and wireless communication.",
+      "Working with the electrical team on firmware/hardware integration and validation for vehicle electronics.",
     ],
   },
   {

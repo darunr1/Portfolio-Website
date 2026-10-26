@@ -98,11 +98,11 @@ function ProjectRecord({ project, index }: { project: Project; index: number }) 
         </dl>
 
         <div className="project-entry__evidence">
-          <p className="micro-label">Evidence</p>
+          <p className="micro-label">Description</p>
           <ol>
             {project.evidence.map((item, evidenceIndex) => (
               <li key={item}>
-                <span aria-hidden="true">E{String(evidenceIndex + 1).padStart(2, "0")}</span>
+                <span aria-hidden="true">D{String(evidenceIndex + 1).padStart(2, "0")}</span>
                 <p>{item}</p>
               </li>
             ))}
@@ -154,7 +154,7 @@ export function ProjectsSection() {
         number="02"
         title="Selected systems"
         description={sectionIntroductions.systems}
-        descriptor="Systems ledger / public evidence"
+        descriptor="Systems ledger / project descriptions"
       />
 
       <ol className="project-ledger">
