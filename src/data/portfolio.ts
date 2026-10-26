@@ -253,6 +253,18 @@ export const additionalProjects = [
 
 export const experiences = [
   {
+    organization: "Dallas Formula Racing",
+    role: "Firmware Engineer (Onboarding)",
+    dates: "Sep 2026 – Present",
+    engagement: "Student engineering team",
+    workMode: "On-site",
+    location: "Richardson, Texas",
+    highlights: [
+      "Progressing through firmware-team onboarding and working with the team’s GitHub repository.",
+      "Preparing for electric-vehicle firmware work involving data acquisition, wireless communication, and hardware/software integration.",
+    ],
+  },
+  {
     organization: "Georgia Institute of Technology",
     role: "Semiconductor Process Modeling Research Assistant",
     dates: "Aug 2026 – Present",
@@ -310,7 +322,7 @@ export const capabilityRows = [
       "Computer-Aided Design (CAD)",
       "Systems Design",
     ],
-    evidence: ["AutoHIL", "Embedded Telemetry Logger"],
+    evidence: ["Dallas Formula Racing", "AutoHIL", "Embedded Telemetry Logger"],
   },
   {
     domain: "Software & computation",
